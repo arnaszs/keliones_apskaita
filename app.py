@@ -7,6 +7,7 @@ layout = [
     [sg.Text('Kuro bako talpa (l): '), sg.InputText(key='talpa')],
     [sg.Button('Skaiciuoti')],
     [sg.Text(size=(40, 1), key='output')]
+    
 ]
 
 # Create the window and display it
