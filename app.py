@@ -1,56 +1,43 @@
 import PySimpleGUI as sg
 
-# Define the PySimpleGUI layout
-layout = [
-    [sg.Text('Kelionės atstumas (km):'), sg.Input(key='distance')],
-    [sg.Text('Kuro bako talpa (l):'), sg.Input(key='tank_size')],
-    [sg.Text('Kuro kaina (eur/l):'), sg.Input(key='fuel_cost')],
-    [sg.Checkbox('Maistas', key='food')],
-    [sg.Checkbox('Kelių mokestis', key='tolls')],
-    [sg.Text('Valiutos tipas: Euro')],
-    [sg.Text('Asmeninės išlaidos:', size=(20, 1)), sg.Input(key='personal_expenses')],
-    [sg.Button('Skaičiuoti'), sg.Button('Išvalyti')],
-    [sg.Text('Kelionės pradžios laikas:'), sg.Input(key='start_time')],
-    [sg.Multiline(key='history', size=(40, 5))],
-    [sg.Text('Kiek laiko truko kiekviena kelionė:'), sg.Multiline(key='duration')],
-    [sg.Text('Kiek laiko truko visos kelionės:'), sg.Input(key='total_duration')],
-    [sg.Text('Bendra kuro sanaudų suma (eur):'), sg.Input(key='total_fuel_cost')],
-]
+# Layout
+layout = [[sg.Text('Kelionės atstumas (km): '), sg.Input(key='-DISTANCE-')],
+          [sg.Text('Kuro bako talpa (l): '), sg.Input(key='-TANK_CAPACITY-')],
+          [sg.Text('Kuro kaina (eur/l): '), sg.Input(key='-FUEL_PRICE-')],
+          [sg.Checkbox('Maistas', key='-FOOD_CHECK-')],
+          [sg.Checkbox('Kelių mokestis', key='-TOLL_CHECK-')],
+          [sg.Text('Valiutos tipas: '), sg.Radio('Eurai', 'RADIO1', key='-EURO_RADIO-', default=True), sg.Radio('Svarai', 'RADIO1', key='-POUND_RADIO-')],
+          [sg.Text('Asmeninės išlaidos (eur): '), sg.Input(key='-PERSONAL_EXPENSES-')],
+          [sg.Button('Skaičiuoti'), sg.Button('Išvalyti'), sg.Button('Išeiti')]]
 
-# Create the PySimpleGUI window
+# Create the window
 window = sg.Window('Kelionės kalkuliatorius', layout)
 
-# Event loop to process events and get input
+# Event loop
 while True:
     event, values = window.read()
-
-    # Break out of the loop if the user closes the window or clicks the Exit button
-    if event == sg.WINDOW_CLOSED or event == 'Išvalyti':
+    if event in (sg.WINDOW_CLOSED, 'Išeiti'):
         break
-
-    # Calculate the total fuel cost based on the input values
-    if event == 'Skaičiuoti':
-        distance = float(values['distance'])
-        tank_size = float(values['tank_size'])
-        fuel_cost = float(values['fuel_cost'])
-        food = values['food']
-        tolls = values['tolls']
-        personal_expenses = float(values['personal_expenses'])
-
-        total_fuel_cost = (distance / tank_size) * fuel_cost
-
-        if food:
-            total_fuel_cost += 20.0
-        if tolls:
-            total_fuel_cost += 10.0
-
-        total_fuel_cost += personal_expenses
-
-        # Update the output fields
-        window['total_fuel_cost'].update(total_fuel_cost)
-        window['history'].update(values['history'] + f'Kelionė: {distance} km, Kaina: {total_fuel_cost} eur\n')
-        window['duration'].update(values['duration'] + f'{distance} km: 3 val. 30 min.\n')
-        window['total_duration'].update('20 val.')
+    elif event == 'Skaičiuoti':
+        # Do the calculations here
+        distance = float(values['-DISTANCE-'])
+        tank_capacity = float(values['-TANK_CAPACITY-'])
+        fuel_price = float(values['-FUEL_PRICE-'])
+        food_checked = values['-FOOD_CHECK-']
+        toll_checked = values['-TOLL_CHECK-']
+        euro_checked = values['-EURO_RADIO-']
+        pound_checked = values['-POUND_RADIO-']
+        personal_expenses = float(values['-PERSONAL_EXPENSES-'])
+        # TODO: Perform the necessary calculations and display the results
+        # You can use the sg.Popup function to display a message box with the results
+    elif event == 'Išvalyti':
+        window['-DISTANCE-'].update('')
+        window['-TANK_CAPACITY-'].update('')
+        window['-FUEL_PRICE-'].update('')
+        window['-FOOD_CHECK-'].update(False)
+        window['-TOLL_CHECK-'].update(False)
+        window['-EURO_RADIO-'].update(True)
+        window['-PERSONAL_EXPENSES-'].update('')
         
-# Close the PySimpleGUI window
+# Close the window
 window.close()
