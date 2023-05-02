@@ -21,8 +21,8 @@ kur vykstate:
 programa turi atiduoti vartojui:
 - laika, atstumas kiek laiko truks kelione
 - suma is viso
-- kuro norma
-- 
+- kuro sanaudos
+- kuro bako talpa
 ```
 ## Example
 
