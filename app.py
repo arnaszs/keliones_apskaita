@@ -7,6 +7,7 @@ layout = [[sg.Text('Kelionės atstumas (km): ', background_color="Dark Cyan"), s
           [sg.Text('Greitis: ', background_color="Dark Cyan"), sg.Input(key='-SPEED-')],
           [sg.Text('Kuro bako talpa (l): ', background_color="Dark Cyan"), sg.Input(key='-FUEL_CAPACITY-')],
           [sg.Text('Kuro kaina (eur/l): ', background_color="Dark Cyan"), sg.Input(key='-FUEL_PRICE-')],
+          [sg.Text('Kuro sanaudos (l/100km): ', background_color="Dark Cyan"), sg.Input(key='-FUEL_CONSUMPTION-')],
           [sg.Checkbox('Maistas', key='-FOOD_CHECK-', background_color="Dark Cyan")],
           [sg.Checkbox('Kelių mokestis', key='-TOLL_CHECK-', background_color="Dark Cyan")],
           [sg.Text('Valiutos tipas: ', background_color="Dark Cyan"), sg.Radio('Eurai', 'RADIO1', key='-EURO_RADIO-', default=True, background_color="Dark Cyan"), sg.Radio('Svarai', 'RADIO1', key='-POUND_RADIO-', background_color="Dark Cyan")],
