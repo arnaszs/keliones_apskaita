@@ -29,6 +29,15 @@ programa turi atiduoti vartojui:
 ```
 eil. nr [] islaidos [] kuro kiekis: km, uzpilta, data, suma, valiuta, gryni/kreditas, salis
 ```
+```
 
+### Tobulinimas
+
+
+input - ivesti kelione
+
+saugotu kiekviena keliones varda
+ataskaitos pasirinkimas
+visu kelioniu total cost
 
 
