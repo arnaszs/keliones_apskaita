@@ -39,9 +39,6 @@ def fuel_consumption_total(distance, fuel_consumption):
     fuel_consumption_total = distance * fuel_consumption / 100
     return f"Fuel consumption: {fuel_consumption_total:.2f} L"
 
-
-
-
 # Event loop
 while True:
     event, values = window.read()
