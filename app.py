@@ -64,6 +64,7 @@ while True:
         window['-DISTANCE-'].update('')
         window['-FUEL_CONSUMPTION-'].update('')
         window['-FUEL_PRICE-'].update('')
+        window['-FUEL_CONSUMPTION_TOTAL-'].update('')
         window['-FOOD_CHECK-'].update(False)
         window['-TOLL_CHECK-'].update(False)
         window['-EURO_RADIO-'].update(True)
