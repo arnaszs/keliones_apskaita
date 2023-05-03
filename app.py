@@ -36,11 +36,8 @@ def calculate_total_cost(distance, fuel_consumption, fuel_price, food_checked, t
     return f"Total cost: {total_cost:.2f} {currency}"
 
 def fuel_consumption_total(distance, fuel_consumption):
-    fuel_consumption_totall = (distance / 100) * fuel_consumption
-    return str(fuel_consumption_totall)
-
-
-
+    fuel_consumption_total = distance * fuel_consumption / 100
+    return f"Fuel consumption: {fuel_consumption_total:.2f} L"
 
 # Event loop
 while True:
@@ -60,7 +57,8 @@ while True:
         euro_checked = values['-EURO_RADIO-']
         pound_checked = values['-POUND_RADIO-']
         total_cost = calculate_total_cost(distance, fuel_consumption, fuel_price, food_checked, toll_checked, euro_checked, pound_checked)
-        sg.Popup(total_cost, travel_time, fuel_consumption_total) # <-- gauname kelionės išlaidas
+        fuel_consumption_total = fuel_consumption_total(distance, fuel_consumption)
+        sg.Popup(f"{total_cost}, {travel_time}, {fuel_consumption_total}")
     elif event == 'Išvalyti':
         window['-DISTANCE-'].update('')
         window['-FUEL_CONSUMPTION-'].update('')
