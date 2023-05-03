@@ -12,6 +12,7 @@ layout = [[sg.Text('Kelionės atstumas (km): ', background_color="Dark Cyan"), s
           [sg.Checkbox('Kelių mokestis', key='-TOLL_CHECK-', background_color="Dark Cyan")],
           [sg.Text('Valiutos tipas: ', background_color="Dark Cyan"), sg.Radio('Eurai', 'RADIO1', key='-EURO_RADIO-', default=True, background_color="Dark Cyan"), sg.Radio('Svarai', 'RADIO1', key='-POUND_RADIO-', background_color="Dark Cyan")],
           [sg.Text('Asmeninės išlaidos (eur): ', background_color="Dark Cyan"), sg.Input(key='-PERSONAL_EXPENSES-')],
+          [sg.Canvas(background_color='black', size=(640, 480), key='-CANVAS-')],
           [sg.Button('Skaičiuoti', use_ttk_buttons=True, focus=True), sg.Button('Išvalyti', use_ttk_buttons=True, focus=True), sg.Button('Išeiti', use_ttk_buttons=True, focus=True)]]
 
 # Create the window
@@ -27,6 +28,7 @@ window = sg.Window('Kelionės kalkuliatorius', layout,
                  titlebar_font='Italic 12 bold', titlebar_icon=icon,
                  scaling=None,
                  metadata=None)
+
 
 def calculate_travel_time(distance, speed):
     time_in_hours = distance / speed
