@@ -4,7 +4,8 @@ icon = b'iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAFZklEQVR4nO3TWWxUVRwG8O/
 
 # Layout
 layout = [[sg.Text('Kelionės atstumas (km): ', background_color="Dark Cyan"), sg.Input(key='-DISTANCE-')],
-          [sg.Text('Kuro bako talpa (l): ', background_color="Dark Cyan"), sg.Input(key='-TANK_CAPACITY-')],
+          [sg.Text('Greitis: ', background_color="Dark Cyan"), sg.Input(key='-SPEED-')],
+          [sg.Text('Kuro bako talpa (l): ', background_color="Dark Cyan"), sg.Input(key='-FUEL_CAPACITY-')],
           [sg.Text('Kuro kaina (eur/l): ', background_color="Dark Cyan"), sg.Input(key='-FUEL_PRICE-')],
           [sg.Checkbox('Maistas', key='-FOOD_CHECK-', background_color="Dark Cyan")],
           [sg.Checkbox('Kelių mokestis', key='-TOLL_CHECK-', background_color="Dark Cyan")],
@@ -30,6 +31,58 @@ window = sg.Window('Kelionės kalkuliatorius', layout, default_element_size=None
                  scaling=None,
                  metadata=None)
 
+def calculate_travel_time(distance, speed):
+    time_in_hours = distance / speed
+    time_in_minutes = time_in_hours * 60
+    return f"Travel time: {time_in_hours:.2f} hours or {time_in_minutes:.2f} minutes"
+
+def calculate_total_cost(distance, fuel_consumption, fuel_price, food_checked, toll_checked, euro_checked, pound_checked):
+    fuel_cost = distance * fuel_consumption * fuel_price / 100
+    food_cost = 0
+    toll_cost = 0
+    if food_checked:
+        food_cost = 10 # TODO: calculate actual food cost
+    if toll_checked:
+        toll_cost = 5 # TODO: calculate actual toll cost
+    euro_to_pound_rate = 0.8 # TODO: replace with actual exchange rate
+    if pound_checked:
+        fuel_cost *= euro_to_pound_rate
+        food_cost *= euro_to_pound_rate
+        toll_cost *= euro_to_pound_rate
+    total_cost = fuel_cost + food_cost + toll_cost
+    currency = 'EUR' if euro_checked else 'GBP'
+    return f"Total cost: {total_cost:.2f} {currency}"
+
+def fuel_consumption_total(distance, fuel_consumption):
+    fuel_consumption_total = distance * fuel_consumption / 100
+    return f"Fuel consumption: {fuel_consumption_total:.2f} L"
+
+def calculate_travel_time(distance, speed):
+    time_in_hours = distance / speed
+    time_in_minutes = time_in_hours * 60
+    return f"Travel time: {time_in_hours:.2f} hours or {time_in_minutes:.2f} minutes"
+
+def calculate_total_cost(distance, fuel_consumption, fuel_price, food_checked, toll_checked, euro_checked, pound_checked):
+    fuel_cost = distance * fuel_consumption * fuel_price / 100
+    food_cost = 0
+    toll_cost = 0
+    if food_checked:
+        food_cost = 10 # TODO: calculate actual food cost
+    if toll_checked:
+        toll_cost = 5 # TODO: calculate actual toll cost
+    euro_to_pound_rate = 0.8 # TODO: replace with actual exchange rate
+    if pound_checked:
+        fuel_cost *= euro_to_pound_rate
+        food_cost *= euro_to_pound_rate
+        toll_cost *= euro_to_pound_rate
+    total_cost = fuel_cost + food_cost + toll_cost
+    currency = 'EUR' if euro_checked else 'GBP'
+    return f"Total cost: {total_cost:.2f} {currency}"
+
+def fuel_consumption_total(distance, fuel_consumption):
+    fuel_consumption_total = distance * fuel_consumption / 100
+    return f"Fuel consumption: {fuel_consumption_total:.2f} L"
+
 # Event loop
 while True:
     event, values = window.read()
@@ -38,23 +91,27 @@ while True:
     elif event == 'Skaičiuoti':
         # Do the calculations here
         distance = float(values['-DISTANCE-'])
-        tank_capacity = float(values['-TANK_CAPACITY-'])
+        speed = float(values['-SPEED-'])
+        travel_time = calculate_travel_time(distance, speed)
+        fuel_capacity = values['-FUEL_CAPACITY-']
+        fuel_consumption = float(values['-FUEL_CONSUMPTION-'])
         fuel_price = float(values['-FUEL_PRICE-'])
         food_checked = values['-FOOD_CHECK-']
         toll_checked = values['-TOLL_CHECK-']
         euro_checked = values['-EURO_RADIO-']
         pound_checked = values['-POUND_RADIO-']
-        personal_expenses = float(values['-PERSONAL_EXPENSES-'])
-        # TODO: Perform the necessary calculations and display the results
-        # You can use the sg.Popup function to display a message box with the results
+        total_cost = calculate_total_cost(distance, fuel_consumption, fuel_price, food_checked, toll_checked, euro_checked, pound_checked)
+        fuel_consumption_total = fuel_consumption_total(distance, fuel_consumption)
+        sg.Popup(f"{total_cost}, {travel_time}, {fuel_consumption_total}, kuro bako talpa: {fuel_capacity}")
     elif event == 'Išvalyti':
         window['-DISTANCE-'].update('')
-        window['-TANK_CAPACITY-'].update('')
+        window['-FUEL_CONSUMPTION-'].update('')
         window['-FUEL_PRICE-'].update('')
+        window['-FUEL_CONSUMPTION_TOTAL-'].update('')
         window['-FOOD_CHECK-'].update(False)
         window['-TOLL_CHECK-'].update(False)
         window['-EURO_RADIO-'].update(True)
-        window['-PERSONAL_EXPENSES-'].update('')
         
 # Close the window
 window.close()
+
