@@ -5,6 +5,7 @@ layout = [[sg.Text('Kelionės atstumas (km): '), sg.Input(key='-DISTANCE-')],
           [sg.Text('Greitis: '), sg.Input(key='-SPEED-')],
           [sg.Text('Kuro sanaudos: '), sg.Input(key='-FUEL_CONSUMPTION-')],
           [sg.Text('Kuro kaina (eur/l): '), sg.Input(key='-FUEL_PRICE-')],
+          [sg.Text('Kuro bako talpa: '), sg.Input(key='-FUEL_CAPACITY-')],
           [sg.Checkbox('Maistas', key='-FOOD_CHECK-')],
           [sg.Checkbox('Kelių mokestis', key='-TOLL_CHECK-')],
           [sg.Text('Valiutos tipas: '), sg.Radio('Eurai', 'RADIO1', key='-EURO_RADIO-', default=True), sg.Radio('Svarai', 'RADIO1', key='-POUND_RADIO-')],
@@ -49,7 +50,7 @@ while True:
         distance = float(values['-DISTANCE-'])
         speed = float(values['-SPEED-'])
         travel_time = calculate_travel_time(distance, speed)
-        # sg.Popup(travel_time) # <-- gauname kelionės laiką
+        fuel_capacity = values['-FUEL_CAPACITY-']
         fuel_consumption = float(values['-FUEL_CONSUMPTION-'])
         fuel_price = float(values['-FUEL_PRICE-'])
         food_checked = values['-FOOD_CHECK-']
@@ -58,11 +59,12 @@ while True:
         pound_checked = values['-POUND_RADIO-']
         total_cost = calculate_total_cost(distance, fuel_consumption, fuel_price, food_checked, toll_checked, euro_checked, pound_checked)
         fuel_consumption_total = fuel_consumption_total(distance, fuel_consumption)
-        sg.Popup(f"{total_cost}, {travel_time}, {fuel_consumption_total}")
+        sg.Popup(f"{total_cost}, {travel_time}, {fuel_consumption_total}, kuro bako talpa: {fuel_capacity}")
     elif event == 'Išvalyti':
         window['-DISTANCE-'].update('')
         window['-FUEL_CONSUMPTION-'].update('')
         window['-FUEL_PRICE-'].update('')
+        window['-FUEL_CONSUMPTION_TOTAL-'].update('')
         window['-FOOD_CHECK-'].update(False)
         window['-TOLL_CHECK-'].update(False)
         window['-EURO_RADIO-'].update(True)
