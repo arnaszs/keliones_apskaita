@@ -1,0 +1,28 @@
+{
+  "calculate_travel_time": {
+    "distance": 10.0,
+    "speed": 10.0,
+    "travel time": "Travel time: 1.00 hours or 60.00 minutes",
+    "fuel capacity": "10",
+    "fuel_comsumption": 10.0,
+    "total cost": "Total cost: 10.00 EUR"
+  }
+}{
+  "calculate_travel_time": {
+    "distance": 20.0,
+    "speed": 20.0,
+    "travel time": "Travel time: 1.00 hours or 60.00 minutes",
+    "fuel capacity": "20",
+    "fuel_comsumption": 20.0,
+    "total cost": "Total cost: 64.00 GBP"
+  }
+}{
+  "calculate_travel_time": {
+    "distance": 30.0,
+    "speed": 30.0,
+    "travel time": "Travel time: 1.00 hours or 60.00 minutes",
+    "fuel capacity": "30",
+    "fuel_comsumption": 30.0,
+    "total cost": "Total cost: 270.00 EUR"
+  }
+}
