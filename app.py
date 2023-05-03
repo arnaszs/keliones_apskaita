@@ -144,3 +144,4 @@ while True:
 # Close the window
 window.close()
 
+#versija 2
