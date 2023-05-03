@@ -1,3 +1,5 @@
 # keliones_apskaita
 
-- Idėtas kelionės
+- Idėtos kelionės atstumas
+- Ideta total cost
+- ideta kuro bako talpa
