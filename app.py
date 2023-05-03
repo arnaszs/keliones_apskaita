@@ -2,6 +2,7 @@ import PySimpleGUI as sg
 
 # Layout
 layout = [[sg.Text('Kelionės atstumas (km): '), sg.Input(key='-DISTANCE-')],
+          [sg.Text('Greitis: '), sg.Input(key='-SPEED-')],
           [sg.Text('Kuro bako talpa (l): '), sg.Input(key='-TANK_CAPACITY-')],
           [sg.Text('Kuro kaina (eur/l): '), sg.Input(key='-FUEL_PRICE-')],
           [sg.Checkbox('Maistas', key='-FOOD_CHECK-')],
@@ -13,6 +14,12 @@ layout = [[sg.Text('Kelionės atstumas (km): '), sg.Input(key='-DISTANCE-')],
 # Create the window
 window = sg.Window('Kelionės kalkuliatorius', layout)
 
+def calculate_travel_time(distance, speed):
+    time_in_hours = distance / speed
+    time_in_minutes = time_in_hours * 60
+    return f"Travel time: {time_in_hours:.2f} hours or {time_in_minutes:.2f} minutes"
+
+
 # Event loop
 while True:
     event, values = window.read()
@@ -21,6 +28,10 @@ while True:
     elif event == 'Skaičiuoti':
         # Do the calculations here
         distance = float(values['-DISTANCE-'])
+        speed = float(values['-SPEED-'])
+        travel_time = calculate_travel_time(distance, speed)
+        sg.Popup(travel_time) # <-- gauname kelionės laiką
+
         tank_capacity = float(values['-TANK_CAPACITY-'])
         fuel_price = float(values['-FUEL_PRICE-'])
         food_checked = values['-FOOD_CHECK-']
@@ -41,3 +52,4 @@ while True:
         
 # Close the window
 window.close()
+
