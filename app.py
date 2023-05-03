@@ -3,7 +3,7 @@ import PySimpleGUI as sg
 # Layout
 layout = [[sg.Text('Kelionės atstumas (km): '), sg.Input(key='-DISTANCE-')],
           [sg.Text('Greitis: '), sg.Input(key='-SPEED-')],
-          [sg.Text('Kuro sanaudos (l): '), sg.Input(key='-FUEL_CONSUMPTION-')],
+          [sg.Text('Kuro sanaudos: '), sg.Input(key='-FUEL_CONSUMPTION-')],
           [sg.Text('Kuro kaina (eur/l): '), sg.Input(key='-FUEL_PRICE-')],
           [sg.Checkbox('Maistas', key='-FOOD_CHECK-')],
           [sg.Checkbox('Kelių mokestis', key='-TOLL_CHECK-')],
@@ -18,15 +18,16 @@ def calculate_travel_time(distance, speed):
     time_in_minutes = time_in_hours * 60
     return f"Travel time: {time_in_hours:.2f} hours or {time_in_minutes:.2f} minutes"
 
-def calculate_total_cost(distance, fuel_consumption, fuel_price, food_checked, toll_checked, euro_checked, pound_checked):
+def calculate_total_cost(distance, fuel_consumption, fuel_consumption_total, fuel_price, food_checked, toll_checked, euro_checked, pound_checked):
     fuel_cost = distance * fuel_consumption * fuel_price / 100
+    fuel_consumption_total = (distance / 100) * fuel_consumption
     food_cost = 0
     toll_cost = 0
     if food_checked:
         food_cost = 10 # TODO: calculate actual food cost
     if toll_checked:
         toll_cost = 5 # TODO: calculate actual toll cost
-    euro_to_pound_rate = 1.2 # TODO: replace with actual exchange rate
+    euro_to_pound_rate = 0.8 # TODO: replace with actual exchange rate
     if pound_checked:
         fuel_cost *= euro_to_pound_rate
         food_cost *= euro_to_pound_rate
@@ -34,6 +35,9 @@ def calculate_total_cost(distance, fuel_consumption, fuel_price, food_checked, t
     total_cost = fuel_cost + food_cost + toll_cost
     currency = 'EUR' if euro_checked else 'GBP'
     return f"Total cost: {total_cost:.2f} {currency}"
+
+
+
 
 # Event loop
 while True:
@@ -53,8 +57,8 @@ while True:
         toll_checked = values['-TOLL_CHECK-']
         euro_checked = values['-EURO_RADIO-']
         pound_checked = values['-POUND_RADIO-']
-        total_cost = calculate_total_cost(distance, fuel_consumption, fuel_price, food_checked, toll_checked, euro_checked, pound_checked)
-        sg.Popup(total_cost, travel_time) # <-- gauname kelionės išlaidas
+        total_cost = calculate_total_cost(distance, fuel_consumption, fuel_price, food_checked, toll_checked, euro_checked, pound_checked, fuel_consumption_total)
+        sg.Popup(total_cost, travel_time, fuel_consumption_total) # <-- gauname kelionės išlaidas
     elif event == 'Išvalyti':
         window['-DISTANCE-'].update('')
         window['-FUEL_CONSUMPTION-'].update('')
