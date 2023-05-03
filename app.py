@@ -8,7 +8,6 @@ layout = [[sg.Text('Kelionės atstumas (km): '), sg.Input(key='-DISTANCE-')],
           [sg.Checkbox('Maistas', key='-FOOD_CHECK-')],
           [sg.Checkbox('Kelių mokestis', key='-TOLL_CHECK-')],
           [sg.Text('Valiutos tipas: '), sg.Radio('Eurai', 'RADIO1', key='-EURO_RADIO-', default=True), sg.Radio('Svarai', 'RADIO1', key='-POUND_RADIO-')],
-          [sg.Text('Asmeninės išlaidos (eur): '), sg.Input(key='-PERSONAL_EXPENSES-')],
           [sg.Button('Skaičiuoti'), sg.Button('Išvalyti'), sg.Button('Išeiti')]]
 
 # Create the window
@@ -19,6 +18,20 @@ def calculate_travel_time(distance, speed):
     time_in_minutes = time_in_hours * 60
     return f"Travel time: {time_in_hours:.2f} hours or {time_in_minutes:.2f} minutes"
 
+def calculate_total_cost(distance, speed, tank_capacity, fuel_price, food_checked, toll_checked, euro_checked, pound_checked):
+    travel_time = calculate_travel_time(distance, speed)
+    fuel_consumption = distance / 100
+    fuel_cost = fuel_consumption * fuel_price
+    toll_cost = 0
+    if toll_checked:
+        toll_cost = distance * 0.05
+    food_cost = 0
+    if food_checked:
+        food_cost = 10
+    total_cost = fuel_cost + toll_cost + food_cost
+    if pound_checked:
+        total_cost *= 1.2
+    return f"{travel_time}\nTotal cost: {total_cost:.2f}{'£' if pound_checked else '€'}"
 
 # Event loop
 while True:
@@ -29,18 +42,14 @@ while True:
         # Do the calculations here
         distance = float(values['-DISTANCE-'])
         speed = float(values['-SPEED-'])
-        travel_time = calculate_travel_time(distance, speed)
-        sg.Popup(travel_time) # <-- gauname kelionės laiką
-
         tank_capacity = float(values['-TANK_CAPACITY-'])
         fuel_price = float(values['-FUEL_PRICE-'])
         food_checked = values['-FOOD_CHECK-']
         toll_checked = values['-TOLL_CHECK-']
         euro_checked = values['-EURO_RADIO-']
         pound_checked = values['-POUND_RADIO-']
-        personal_expenses = float(values['-PERSONAL_EXPENSES-'])
-        # TODO: Perform the necessary calculations and display the results
-        # You can use the sg.Popup function to display a message box with the results
+        total_cost = calculate_total_cost(distance, speed, tank_capacity, fuel_price, food_checked, toll_checked, euro_checked, pound_checked)
+        sg.Popup(total_cost)
     elif event == 'Išvalyti':
         window['-DISTANCE-'].update('')
         window['-TANK_CAPACITY-'].update('')
@@ -48,8 +57,6 @@ while True:
         window['-FOOD_CHECK-'].update(False)
         window['-TOLL_CHECK-'].update(False)
         window['-EURO_RADIO-'].update(True)
-        window['-PERSONAL_EXPENSES-'].update('')
         
 # Close the window
 window.close()
-
