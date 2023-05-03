@@ -18,9 +18,8 @@ def calculate_travel_time(distance, speed):
     time_in_minutes = time_in_hours * 60
     return f"Travel time: {time_in_hours:.2f} hours or {time_in_minutes:.2f} minutes"
 
-def calculate_total_cost(distance, fuel_consumption, fuel_consumption_total, fuel_price, food_checked, toll_checked, euro_checked, pound_checked):
+def calculate_total_cost(distance, fuel_consumption, fuel_price, food_checked, toll_checked, euro_checked, pound_checked):
     fuel_cost = distance * fuel_consumption * fuel_price / 100
-    fuel_consumption_total = (distance / 100) * fuel_consumption
     food_cost = 0
     toll_cost = 0
     if food_checked:
@@ -36,6 +35,10 @@ def calculate_total_cost(distance, fuel_consumption, fuel_consumption_total, fue
     currency = 'EUR' if euro_checked else 'GBP'
     return f"Total cost: {total_cost:.2f} {currency}"
 
+def fuel_consumption_total(distance, fuel_consumption):
+    fuel_consumption_totall = (distance / 100) * fuel_consumption
+    return str(fuel_consumption_totall)
+
 
 
 
@@ -50,14 +53,13 @@ while True:
         speed = float(values['-SPEED-'])
         travel_time = calculate_travel_time(distance, speed)
         # sg.Popup(travel_time) # <-- gauname kelionės laiką
-
         fuel_consumption = float(values['-FUEL_CONSUMPTION-'])
         fuel_price = float(values['-FUEL_PRICE-'])
         food_checked = values['-FOOD_CHECK-']
         toll_checked = values['-TOLL_CHECK-']
         euro_checked = values['-EURO_RADIO-']
         pound_checked = values['-POUND_RADIO-']
-        total_cost = calculate_total_cost(distance, fuel_consumption, fuel_price, food_checked, toll_checked, euro_checked, pound_checked, fuel_consumption_total)
+        total_cost = calculate_total_cost(distance, fuel_consumption, fuel_price, food_checked, toll_checked, euro_checked, pound_checked)
         sg.Popup(total_cost, travel_time, fuel_consumption_total) # <-- gauname kelionės išlaidas
     elif event == 'Išvalyti':
         window['-DISTANCE-'].update('')
