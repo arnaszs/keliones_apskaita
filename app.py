@@ -15,20 +15,16 @@ layout = [[sg.Text('Kelionės atstumas (km): ', background_color="Dark Cyan"), s
           [sg.Button('Skaičiuoti', use_ttk_buttons=True, focus=True), sg.Button('Išvalyti', use_ttk_buttons=True, focus=True), sg.Button('Išeiti', use_ttk_buttons=True, focus=True)]]
 
 # Create the window
-window = sg.Window('Kelionės kalkuliatorius', layout, default_element_size=None,
-                 default_button_element_size=(None, None),
-                 auto_size_text=None, auto_size_buttons=None, size=(640, 480),
+window = sg.Window('Kelionės kalkuliatorius', layout, 
+                 size=(640, 480),
                  element_padding=None, margins=(None, None), button_color=None, font='Italic 12 bold',
                  background_color='Dark Cyan', border_depth=None,
                  icon=icon,
                  alpha_channel=0.97, use_default_focus=True, text_justification=None,
                  no_titlebar=False, grab_anywhere=True, grab_anywhere_using_control=False, keep_on_top=None, resizable=True, 
                  disable_minimize=False, right_click_menu=None, transparent_color=None, debugger_enabled=True,
-                 right_click_menu_background_color=None, right_click_menu_text_color=None, right_click_menu_disabled_text_color=None,
-                 right_click_menu_selected_colors=(None, None),
-                 right_click_menu_font=None, right_click_menu_tearoff=False,
-                 finalize=False, element_justification='left', ttk_theme=None, use_ttk_buttons=None, enable_close_attempted_event=False,
-                 titlebar_background_color=None, titlebar_text_color=None, titlebar_font='Italic 12 bold', titlebar_icon=icon,
+                 element_justification='left', 
+                 titlebar_font='Italic 12 bold', titlebar_icon=icon,
                  scaling=None,
                  metadata=None)
 
@@ -37,31 +33,9 @@ def calculate_travel_time(distance, speed):
     time_in_minutes = time_in_hours * 60
     return f"Travel time: {time_in_hours:.2f} hours or {time_in_minutes:.2f} minutes"
 
-def calculate_total_cost(distance, fuel_consumption, fuel_price, food_checked, toll_checked, euro_checked, pound_checked):
-    fuel_cost = distance * fuel_consumption * fuel_price / 100
-    food_cost = 0
-    toll_cost = 0
-    if food_checked:
-        food_cost = 10 # TODO: calculate actual food cost
-    if toll_checked:
-        toll_cost = 5 # TODO: calculate actual toll cost
-    euro_to_pound_rate = 0.8 # TODO: replace with actual exchange rate
-    if pound_checked:
-        fuel_cost *= euro_to_pound_rate
-        food_cost *= euro_to_pound_rate
-        toll_cost *= euro_to_pound_rate
-    total_cost = fuel_cost + food_cost + toll_cost
-    currency = 'EUR' if euro_checked else 'GBP'
-    return f"Total cost: {total_cost:.2f} {currency}"
-
 def fuel_consumption_total(distance, fuel_consumption):
     fuel_consumption_total = distance * fuel_consumption / 100
     return f"Fuel consumption: {fuel_consumption_total:.2f} L"
-
-def calculate_travel_time(distance, speed):
-    time_in_hours = distance / speed
-    time_in_minutes = time_in_hours * 60
-    return f"Travel time: {time_in_hours:.2f} hours or {time_in_minutes:.2f} minutes"
 
 def calculate_total_cost(distance, fuel_consumption, fuel_price, food_checked, toll_checked, euro_checked, pound_checked):
     fuel_cost = distance * fuel_consumption * fuel_price / 100
@@ -79,10 +53,6 @@ def calculate_total_cost(distance, fuel_consumption, fuel_price, food_checked, t
     total_cost = fuel_cost + food_cost + toll_cost
     currency = 'EUR' if euro_checked else 'GBP'
     return f"Total cost: {total_cost:.2f} {currency}"
-
-def fuel_consumption_total(distance, fuel_consumption):
-    fuel_consumption_total = distance * fuel_consumption / 100
-    return f"Fuel consumption: {fuel_consumption_total:.2f} L"
 
 # Event loop
 while True:
