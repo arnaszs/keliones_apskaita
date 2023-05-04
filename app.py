@@ -18,6 +18,7 @@ layout = [
     [sg.Text('Valiutos tipas: ', background_color="Dark Cyan"), sg.Radio('Eurai', 'RADIO1', key='-EURO_RADIO-', default=True, background_color="Dark Cyan"), sg.Radio('Svarai', 'RADIO1', key='-POUND_RADIO-', background_color="Dark Cyan")],
     [sg.Button('Skaičiuoti', button_color=('white', 'springgreen4'), use_ttk_buttons=True, focus=True), sg.Button('Išvalyti', use_ttk_buttons=True, focus=True), sg.Button('Rodyti ataskaitą', use_ttk_buttons=True, focus=True), sg.Button('Išeiti', button_color=('white', 'firebrick3'), use_ttk_buttons=True, focus=True)]]
 
+
 # Create the window
 window = sg.Window('Kelionės kalkuliatorius', layout, 
                  size=(640, 480),
@@ -27,7 +28,7 @@ window = sg.Window('Kelionės kalkuliatorius', layout,
                  alpha_channel=0.97, use_default_focus=True, grab_anywhere=True, resizable=True,
                  element_justification='left', 
                  titlebar_font='Italic 12 bold', titlebar_icon=icon)
-
+CustomMeter()
 # Event loop
 while True:
     event, values = window.read()
