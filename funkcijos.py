@@ -13,7 +13,7 @@ lst = []
 #create table
 table = sg.Table(
     values= lst,
-    headings=['Keliones pavadinimas', "distance", "speed", "travel time", "fuel capacity", "fuel_comsumption", "total cost"], 
+    headings=['Kelionės pavadinimas', "Atstumas", "Greitis", "Kelionės laikas", "Kuro talpa", "Kuro sunaudojimas L/100km", "Kelionės kaina"], 
     auto_size_columns=True,
     display_row_numbers=False,
     justification='center', 
@@ -50,10 +50,10 @@ layout = [
     [table]
     ]
 
-layout2 = [[sg.Text('Andriaus Kelionės!', background_color='#A37A3B', text_color='#FFF000',  justification='c', key='-T-', font=("Bodoni MT", 40))],
+layout2 = [[sg.Text('Andriaus kelionės!', background_color='#A37A3B', text_color='#FFF000',  justification='c', key='-T-', font=("Bodoni MT", 40))],
         [sg.Image(key='-IMAGE-')],
-        [sg.ProgressBar(interframe_duration, orientation='h', size=(20, 20), key='progress')],
-        [sg.Button('Išeiti', button_color=('white', 'firebrick3'), use_ttk_buttons=True, focus=True)]]   
+        [sg.ProgressBar(interframe_duration, orientation='h', size=(58, 30), key='progress')],
+        [sg.Button(button_color=('white', 'firebrick3'), button_text=('Atšaukti'), size=(20, 1), focus=True, key='Išeiti')]]   
 
 # Create the window
 window = sg.Window('Kelionės kalkuliatorius', 
@@ -78,56 +78,111 @@ window2 = sg.Window('Kelionės apskaita',
 
 window2['-T-'].expand(True, True, True)  # Make the Text element expand to take up all available space
 
-def calculate_trip_info(values):
-    keliones_pavadinimas = values['-NAME-'] + str(siandien)
+from typing import Dict, Tuple
+
+# define the types of the input and output data for the function
+ValuesDict = Dict[str, str]
+TripData = Dict[str, float]
+
+def calculate_trip_info(values: ValuesDict) -> Tuple[TripData, str, float]:
+    # extract values from the input dictionary and convert them to appropriate data types
+    keliones_pavadinimas = values['-NAME-'] + str(siandien)  # siandien variable is not defined
     distance = float(values['-DISTANCE-'])
     speed = float(values['-SPEED-'])
-    travel_time = calculate_travel_time(distance, speed)
-    fuel_capacity = values['-FUEL_CAPACITY-']
+    fuel_capacity = int(values['-FUEL_CAPACITY-'])  # assuming fuel capacity is an integer value
     fuel_consumption = float(values['-FUEL_CONSUMPTION-'])
     fuel_price = float(values['-FUEL_PRICE-'])
-    food_checked = values['-FOOD_CHECK-']
-    toll_checked = values['-TOLL_CHECK-']
-    euro_checked = values['-EURO_RADIO-']
-    pound_checked = values['-POUND_RADIO-']
+    food_checked = bool(values['-FOOD_CHECK-'])  # assuming food_checked is a boolean value
+    toll_checked = bool(values['-TOLL_CHECK-'])  # assuming toll_checked is a boolean value
+    euro_checked = bool(values['-EURO_RADIO-'])  # assuming euro_checked is a boolean value
+    pound_checked = bool(values['-POUND_RADIO-'])  # assuming pound_checked is a boolean value
+    
+    # calculate the travel time and total cost of the trip using helper functions
+    travel_time = calculate_travel_time(distance, speed)
     total_cost = calculate_total_cost(distance, fuel_consumption, fuel_price, food_checked, toll_checked, euro_checked, pound_checked)
+    
+    # calculate the total fuel consumption
     fuel_consumption_total1 = fuel_consumption_total(distance, fuel_consumption)
     
-    #all_trip_data = {keliones_pavadinimas, distance, speed, travel_time, fuel_capacity, fuel_consumption, fuel_price, food_checked, toll_checked, euro_checked, pound_checked, total_cost, fuel_consumption_total1}
+    # create a dictionary containing the calculated trip data
     data = {
         "distance": distance,
         "speed": speed,
         "travel_time": travel_time[0],
         "fuel_capacity": fuel_capacity, 
         "fuel_consumption": fuel_consumption,
-        "total_cost": total_cost,
-        }
+        "total_cost": total_cost,  
+    }
+    # return the trip data dictionary, trip name, and total fuel consumption as a tuple
     return data, keliones_pavadinimas, fuel_consumption_total1
 
-def calculate_total_cost(distance, fuel_consumption, fuel_price, food_checked, toll_checked, euro_checked, pound_checked):
+
+def calculate_total_cost(distance: float, fuel_consumption: float, fuel_price: float, food_checked: bool, toll_checked: bool, euro_checked: bool, pound_checked: bool) -> str:
+    """
+    Calculates the total cost of a trip given the distance, fuel consumption, fuel price, and various expenses.
+
+    Args:
+        distance: A float indicating the distance traveled.
+        fuel_consumption: A float indicating the fuel consumption rate per 100 km.
+        fuel_price: A float indicating the price per liter of fuel.
+        food_checked: A bool indicating whether food expenses were incurred.
+        toll_checked: A bool indicating whether toll expenses were incurred.
+        euro_checked: A bool indicating whether the cost should be in euros (EUR).
+        pound_checked: A bool indicating whether the cost should be in pounds (GBP).
+
+    Returns:
+        A formatted string indicating the total cost in euros (EUR) or pounds (GBP).
+    """
     fuel_cost = distance * fuel_consumption * fuel_price / 100
     food_cost = 0
     toll_cost = 0
+
     if food_checked:
         food_cost = 10 # TODO: calculate actual food cost
     if toll_checked:
         toll_cost = 5 # TODO: calculate actual toll cost
+
     euro_to_pound_rate = 0.8 # TODO: replace with actual exchange rate
+
     if pound_checked:
         fuel_cost *= euro_to_pound_rate
         food_cost *= euro_to_pound_rate
         toll_cost *= euro_to_pound_rate
+
     total_cost = fuel_cost + food_cost + toll_cost
+
     currency = 'EUR' if euro_checked else 'GBP'
     return total_cost
 
-def fuel_consumption_total(distance, fuel_consumption):
+def fuel_consumption_total(distance: float, fuel_consumption: float) -> str:
+    """
+    Calculates the total fuel consumption given a distance and fuel consumption rate.
+
+    Args:
+        distance: A float indicating the distance traveled.
+        fuel_consumption: A float indicating the fuel consumption rate per 100 km.
+
+    Returns:
+        A formatted string indicating the total fuel consumption in liters.
+    """
     fuel_consumption_total = distance * fuel_consumption / 100
+
     return fuel_consumption_total
 
-def calculate_travel_time(distance, speed):
+def calculate_travel_time(distance: float, speed: float) -> str:
+    """
+    Calculates the travel time given a distance and speed.
+
+    Args:
+        distance: A float indicating the distance traveled.
+        speed: A float indicating the speed of travel.
+
+    Returns:
+        A formatted string indicating the travel time in hours and minutes.
+    """
     time_in_hours = distance / speed
     time_in_minutes = time_in_hours * 60
+
     return time_in_hours, time_in_minutes
 
 def save_data(keliones_pavadinimas, data):
