@@ -1,26 +1,74 @@
 {
-  "12431204-05-2023": {
-    "distance": 123123.0,
-    "speed": 123123.0,
+  "104-05-2023": {
+    "distance": 12.0,
+    "speed": 12.0,
     "travel_time": "Travel time: 1.00 hours or 60.00 minutes",
-    "fuel_capacity": "123123",
-    "fuel_comsumption": 12312.0,
-    "total_cost": "Total cost: 3230711046042.48 EUR"
+    "fuel_capacity": "12",
+    "fuel_comsumption": 12.0,
+    "total_cost": "Total cost: 17.28 EUR"
   },
-  "wetwe04-05-2023": {
+  "204-05-2023": {
+    "distance": 12.0,
+    "speed": 12.0,
+    "travel_time": "Travel time: 1.00 hours or 60.00 minutes",
+    "fuel_capacity": "12",
+    "fuel_comsumption": 12.0,
+    "total_cost": "Total cost: 17.28 EUR"
+  },
+  "304-05-2023": {
+    "distance": 12.0,
+    "speed": 12.0,
+    "travel_time": "Travel time: 1.00 hours or 60.00 minutes",
+    "fuel_capacity": "12",
+    "fuel_comsumption": 12.0,
+    "total_cost": "Total cost: 17.28 EUR"
+  },
+  "404-05-2023": {
+    "distance": 12.0,
+    "speed": 12.0,
+    "travel_time": "Travel time: 1.00 hours or 60.00 minutes",
+    "fuel_capacity": "12",
+    "fuel_comsumption": 12.0,
+    "total_cost": "Total cost: 17.28 EUR"
+  },
+  "504-05-2023": {
+    "distance": 12.0,
+    "speed": 12.0,
+    "travel_time": "Travel time: 1.00 hours or 60.00 minutes",
+    "fuel_capacity": "12",
+    "fuel_comsumption": 12.0,
+    "total_cost": "Total cost: 17.28 EUR"
+  },
+  "604-05-2023": {
+    "distance": 12.0,
+    "speed": 12.0,
+    "travel_time": "Travel time: 1.00 hours or 60.00 minutes",
+    "fuel_capacity": "12",
+    "fuel_comsumption": 12.0,
+    "total_cost": "Total cost: 17.28 EUR"
+  },
+  "704-05-2023": {
+    "distance": 12.0,
+    "speed": 12.0,
+    "travel_time": "Travel time: 1.00 hours or 60.00 minutes",
+    "fuel_capacity": "12",
+    "fuel_comsumption": 12.0,
+    "total_cost": "Total cost: 17.28 EUR"
+  },
+  "1243104-05-2023": {
     "distance": 12312.0,
-    "speed": 123123.0,
-    "travel_time": "Travel time: 0.10 hours or 6.00 minutes",
-    "fuel_capacity": "123123",
-    "fuel_comsumption": 123123.0,
-    "total_cost": "Total cost: 1866409707642.48 EUR"
+    "speed": 123123123.0,
+    "travel_time": "Travel time: 0.00 hours or 0.01 minutes",
+    "fuel_capacity": "12312",
+    "fuel_comsumption": 123132.0,
+    "total_cost": "Total cost: 18661974575.04 EUR"
   },
-  "1231204-05-2023": {
-    "distance": 123123.0,
-    "speed": 123123.0,
-    "travel_time": "Travel time: 1.00 hours or 60.00 minutes",
-    "fuel_capacity": "123123",
-    "fuel_comsumption": 12312312.0,
-    "total_cost": "Total cost: 1866457004574657.50 EUR"
+  "12431123104-05-2023": {
+    "distance": 12312.0,
+    "speed": 123123123.0,
+    "travel_time": "Travel time: 0.00 hours or 0.01 minutes",
+    "fuel_capacity": "12312",
+    "fuel_comsumption": 123132.0,
+    "total_cost": "Total cost: 18661974575.04 EUR"
   }
 }
