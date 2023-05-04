@@ -122,5 +122,15 @@ def sudek_el_lst():
         for val in dict.values():
             row.append(val)
         lst.append(row)
-    return row
+
+def update_table(keliones_pavadinimas, data):
+    save_data(keliones_pavadinimas, data)
+    old_values = []
+    for value in lst:
+        old_values.append(value)
+    sudek_el_lst()
+    for value in lst:
+        if value in old_values:
+            lst.remove(value)
+    return lst
           

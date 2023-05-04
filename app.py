@@ -1,12 +1,9 @@
 import PySimpleGUI as sg
 from funkcijos import *
 
-
-
-sudek_el_lst()
 # Layout
 layout = [
-    [sg.Text('Keliones pavadinimas: ', background_color="Dark Cyan"), sg.Input(key='-NAME-', size=20)], 
+    [sg.Text('Keliones pavadinimas: ', background_color="Dark Cyan"), sg.Input(key='-NAME-')], 
     [sg.Text('Kelionės atstumas (km): ', background_color="Dark Cyan"), sg.Input(key='-DISTANCE-', size=20)],
     [sg.Text('Greitis: ', background_color="Dark Cyan"), sg.Input(key='-SPEED-')],
     [sg.Text('Kuro bako talpa (l): ', background_color="Dark Cyan"), sg.Input(key='-FUEL_CAPACITY-')],
@@ -19,10 +16,9 @@ layout = [
     [table]
     ]
 
-
 # Create the window
 window = sg.Window('Kelionės kalkuliatorius', layout, 
-                size=(640, 480),
+                size=(1280, 480),
                 margins=(None, None), button_color=None, font='Italic 12 bold',
                 background_color='Dark Cyan', 
                 icon=icon,
@@ -30,10 +26,8 @@ window = sg.Window('Kelionės kalkuliatorius', layout,
                 element_justification='left', 
                 titlebar_font='Italic 12 bold', titlebar_icon=icon)
 
-# window_table = sg.Window('1', layout_table)
-
-
 CustomMeter()
+sudek_el_lst()
 
 # Event loop
 while True:
@@ -43,34 +37,20 @@ while True:
         
     elif event == 'Skaičiuoti':
         try:
-            trip_info = calculate_trip_info(values)
-            data, keliones_pavadinimas, fuel_consumption_total1 = trip_info
-            #data, keliones_pavadinimas, distance, speed, travel_time, fuel_capacity, fuel_consumption, fuel_price, food_checked, toll_checked, euro_checked, pound_checked, total_cost, fuel_consumption_total1 = trip_info
-            
-            save_data(keliones_pavadinimas, data)
-            old_values = []
-            for value in lst:
-                old_values.append(value)
-            sudek_el_lst()
-            for value in lst:
-                if value in old_values:
-                    lst.remove(value)
-            window['-TABLE-'].update(values=lst)
+            data, keliones_pavadinimas, fuel_consumption_total1 = calculate_trip_info(values)
+            window['-TABLE-'].update(values=update_table(keliones_pavadinimas, data))
         except Exception as e:
             sg.Popup('Something went wrong', e)
             continue
         else:
             sg.Popup(f"Visos islaidos: {data['total_cost']},\n Visas laikas: {data['travel_time']},\n Kuro sanaudos: {fuel_consumption_total1},\n kuro bako talpa: {data['fuel_capacity']}")
-        
-        # save_data(keliones_pavadinimas, data)
-            
+      
     elif event == 'Rodyti ataskaitą':
         pass
 
     elif event == 'Istrinti kelione':
         pass
-
-                
+              
     elif event == 'Išvalyti':
         for key in ['-NAME-', '-DISTANCE-', '-SPEED-', '-FUEL_CAPACITY-', '-FUEL_PRICE-', '-FUEL_CONSUMPTION-']:
             window[key].update('')
