@@ -21,7 +21,6 @@ while True:
         break
         
     elif event == 'Skaičiuoti':
-        print(values)
         try:
             data, keliones_pavadinimas, fuel_consumption_total1 = calculate_trip_info(values)
             window['-TABLE-'].update(values=update_table(keliones_pavadinimas, data))
@@ -29,14 +28,16 @@ while True:
             sg.Popup('Something went wrong', e)
             continue
         else:
-            sg.Popup(f"Visos islaidos: {data['total_cost']},\n Visas laikas: {data['travel_time']},\n Kuro sanaudos: {fuel_consumption_total1},\n kuro bako talpa: {data['fuel_capacity']}")
+            sg.Popup(f"Visos islaidos: {data['total_cost']:.2f}, \nVisas laikas: valandomis {calculate_travel_time(data['distance'], data['speed'])[0]:.2f}, minutemis {calculate_travel_time(data['distance'], data['speed'])[1]:.2f} \nKuro sanaudos: {fuel_consumption_total1:.2f},\nkuro bako talpa: {data['fuel_capacity']}")
       
     elif event == 'Rodyti ataskaitą':
-        pass
+        all_trips()
 
-    elif event == 'Istrinti kelione':
-        pass
-              
+    elif event == 'Ištrinti':
+       data_selected = [row for row in values['-TABLE-']]
+       print(data_selected)
+       window['-TABLE-'].update(values=remove_data(data_selected[0]))
+
     elif event == 'Išvalyti':
         for key in ['-NAME-', '-DISTANCE-', '-SPEED-', '-FUEL_CAPACITY-', '-FUEL_PRICE-', '-FUEL_CONSUMPTION-']:
             window[key].update('')
