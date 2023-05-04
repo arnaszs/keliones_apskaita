@@ -1,18 +1,3 @@
 {
-  "kelione104-05-2023": {
-    "distance": 1212.0,
-    "speed": 1212.0,
-    "travel time": "Travel time: 1.00 hours or 60.00 minutes",
-    "fuel capacity": "1212",
-    "fuel_comsumption": 1212.0,
-    "total cost": "Total cost: 17803616.28 EUR"
-  },
-  "kelione204-05-2023": {
-    "distance": 13.0,
-    "speed": 13.0,
-    "travel time": "Travel time: 1.00 hours or 60.00 minutes",
-    "fuel capacity": "13",
-    "fuel_comsumption": 13.0,
-    "total cost": "Total cost: 36.97 EUR"
-  }
+
 }
