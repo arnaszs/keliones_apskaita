@@ -21,6 +21,7 @@ while True:
         break
         
     elif event == 'Skaičiuoti':
+        print(values)
         try:
             data, keliones_pavadinimas, fuel_consumption_total1 = calculate_trip_info(values)
             window['-TABLE-'].update(values=update_table(keliones_pavadinimas, data))
