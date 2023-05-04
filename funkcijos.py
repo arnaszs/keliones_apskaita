@@ -1,5 +1,6 @@
 import json
 from datetime import date
+import PySimpleGUI as sg
 
 siandien = date.today().strftime("%d-%m-%Y")
 
@@ -30,3 +31,42 @@ def calculate_travel_time(distance, speed):
     time_in_hours = distance / speed
     time_in_minutes = time_in_hours * 60
     return f"Travel time: {time_in_hours:.2f} hours or {time_in_minutes:.2f} minutes"
+
+def save_data(keliones_pavadinimas, data):
+    with open("code_data.json", "r") as f:
+        loader = json.load(f)
+        with open('code_data.json', 'w') as f:
+            loader[keliones_pavadinimas] = data
+            json.dump(loader, f, indent=2)
+
+def load_data(filename):
+    try:
+        with open(filename, 'r+', encoding='utf-8') as data:
+            data = json.load(data)
+    except json.decoder.JSONDecodeError as e:
+        print(f'Error reading {filename}: {e}')
+        data = {"nepaėja"}
+    else:
+        return data
+
+def CustomMeter():
+    # layout the form
+    layout = [[sg.Text('A custom progress meter')],
+              [sg.ProgressBar(5000, orientation='h',
+                              size=(20, 20), key='progress')],
+              [sg.Cancel()]]
+
+    # create the form`
+    window = sg.Window('Custom Progress Meter', layout)
+    progress_bar = window['progress']
+    # loop that would normally do something useful
+    for i in range(5000):
+        # check to see if the cancel button was clicked and exit loop if clicked
+        event, values = window.read(timeout=0, timeout_key='timeout')
+        if event == 'Išeiti' or event == None:
+            break
+        # update bar with loop value +1 so that bar eventually reaches the maximum
+        progress_bar.update_bar(i+1)
+    # done with loop... need to destroy the window as it's still open
+    window.CloseNonBlocking()
+
