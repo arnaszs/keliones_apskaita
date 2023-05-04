@@ -1,5 +1,6 @@
 import PySimpleGUI as sg
 from funkcijos import *
+from funkcijos import calculate_trip_info
 
 
 
@@ -39,24 +40,14 @@ CustomMeter()
 # Event loop
 while True:
     event, values = window.read()
+    
     if event in (sg.WINDOW_CLOSED, 'Išeiti'):
         break
+        
     elif event == 'Skaičiuoti':
         try:
-        # Do the calculations here
-            keliones_pavadinimas = values['-NAME-'] + str(siandien)
-            distance = float(values['-DISTANCE-'])
-            speed = float(values['-SPEED-'])
-            travel_time = calculate_travel_time(distance, speed)
-            fuel_capacity = values['-FUEL_CAPACITY-']
-            fuel_consumption = float(values['-FUEL_CONSUMPTION-'])
-            fuel_price = float(values['-FUEL_PRICE-'])
-            food_checked = values['-FOOD_CHECK-']
-            toll_checked = values['-TOLL_CHECK-']
-            euro_checked = values['-EURO_RADIO-']
-            pound_checked = values['-POUND_RADIO-']
-            total_cost = calculate_total_cost(distance, fuel_consumption, fuel_price, food_checked, toll_checked, euro_checked, pound_checked)
-            fuel_consumption_total1 = fuel_consumption_total(distance, fuel_consumption)
+             trip_info = calculate_trip_info(values)
+             keliones_pavadinimas, distance, speed, travel_time, fuel_capacity, fuel_consumption, fuel_price, food_checked, toll_checked, euro_checked, pound_checked, total_cost, fuel_consumption_total1 = trip_info
         except Exception as e:
             sg.Popup('Something went wrong', e)
             continue
@@ -66,7 +57,7 @@ while True:
         data = {
                 "distance": distance,
                 "speed": speed,
-                "travel time": travel_time ,
+                "travel time": travel_time,
                 "fuel capacity": fuel_capacity, 
                 "fuel_comsumption": fuel_consumption,
                 "total cost": total_cost,
@@ -82,16 +73,11 @@ while True:
             window_table.close
             pass
                 
-
     elif event == 'Išvalyti':
-        window['-NAME-'].update('')
-        window['-DISTANCE-'].update('')
-        window['-FUEL_CONSUMPTION-'].update('')
-        window['-FUEL_CAPACITY-'].update('')
-        window['-SPEED-'].update('')
-        window['-FUEL_PRICE-'].update('')
-        window['-FOOD_CHECK-'].update(False)
-        window['-TOLL_CHECK-'].update(False)
+        for key in ['-NAME-', '-DISTANCE-', '-SPEED-', '-FUEL_CAPACITY-', '-FUEL_PRICE-', '-FUEL_CONSUMPTION-']:
+            window[key].update('')
+        for key in ['-FOOD_CHECK-', '-TOLL_CHECK-', '-EURO_RADIO-']:
+            window[key].update(False)
         window['-EURO_RADIO-'].update(True)
 
 # Close the window
