@@ -1,7 +1,7 @@
 import json
 from datetime import date
 import PySimpleGUI as sg
-from PIL import Image, ImageTk, ImageSequence
+from PIL import Image
 
 siandien = date.today().strftime("%d-%m-%Y")
 filename = "code_data.json"
@@ -25,16 +25,28 @@ table = sg.Table(
 
 # Layout
 layout = [
-    [sg.Text('Keliones pavadinimas: ', background_color="Dark Cyan"), sg.Input(key='-NAME-')], 
-    [sg.Text('Kelionės atstumas (km): ', background_color="Dark Cyan"), sg.Input(key='-DISTANCE-', size=20)],
-    [sg.Text('Greitis: ', background_color="Dark Cyan"), sg.Input(key='-SPEED-')],
-    [sg.Text('Kuro bako talpa (l): ', background_color="Dark Cyan"), sg.Input(key='-FUEL_CAPACITY-')],
-    [sg.Text('Kuro kaina (eur/l): ', background_color="Dark Cyan"), sg.Input(key='-FUEL_PRICE-')],
-    [sg.Text('Kuro sanaudos (l/100km): ', background_color="Dark Cyan"), sg.Input(key='-FUEL_CONSUMPTION-')],
+    [sg.Text('Keliones pavadinimas: ', background_color="Dark Cyan"), 
+     sg.Input(key='-NAME-')], 
+    [sg.Text('Kelionės atstumas (km): ', background_color="Dark Cyan"), 
+     sg.Input(key='-DISTANCE-', size=20)],
+    [sg.Text('Greitis: ', background_color="Dark Cyan"), 
+     sg.Input(key='-SPEED-')],
+    [sg.Text('Kuro bako talpa (l): ', background_color="Dark Cyan"), 
+     sg.Input(key='-FUEL_CAPACITY-')],
+    [sg.Text('Kuro kaina (eur/l): ', background_color="Dark Cyan"), 
+     sg.Input(key='-FUEL_PRICE-')],
+    [sg.Text('Kuro sanaudos (l/100km): ', background_color="Dark Cyan"), 
+     sg.Input(key='-FUEL_CONSUMPTION-')],
     [sg.Checkbox('Maistas', key='-FOOD_CHECK-', background_color="Dark Cyan")],
     [sg.Checkbox('Kelių mokestis', key='-TOLL_CHECK-', background_color="Dark Cyan")],
-    [sg.Text('Valiutos tipas: ', background_color="Dark Cyan"), sg.Radio('Eurai', 'RADIO1', key='-EURO_RADIO-', default=True, background_color="Dark Cyan"), sg.Radio('Svarai', 'RADIO1', key='-POUND_RADIO-', background_color="Dark Cyan")],
-    [sg.Button('Skaičiuoti', button_color=('white', 'springgreen4'), use_ttk_buttons=True, focus=True), sg.Button('Išvalyti', use_ttk_buttons=True, focus=True), sg.Button('Rodyti ataskaitą', use_ttk_buttons=True, focus=True), sg.Button('Išeiti', button_color=('white', 'firebrick3'), use_ttk_buttons=True, focus=True)],
+    [sg.Text('Valiutos tipas: ', background_color="Dark Cyan"), 
+     sg.Radio('Eurai', 'RADIO1', key='-EURO_RADIO-', default=True, background_color="Dark Cyan"), 
+     sg.Radio('Svarai', 'RADIO1', key='-POUND_RADIO-', background_color="Dark Cyan")],
+    [sg.Button('Skaičiuoti', button_color=('white', 'springgreen4'), use_ttk_buttons=True, focus=True), 
+     sg.Button('Išvalyti', use_ttk_buttons=True, focus=True), 
+     sg.Button('Rodyti ataskaitą', use_ttk_buttons=True, focus=True), 
+     sg.Button('Išeiti', button_color=('white', 'firebrick3'), use_ttk_buttons=True, focus=True), 
+     sg.Button('Ištrinti', button_color=('white', 'firebrick3'), use_ttk_buttons=True, focus=True)],
     [table]
     ]
 
@@ -96,18 +108,11 @@ def calculate_trip_info(values: ValuesDict) -> Tuple[TripData, str, float]:
     data = {
         "distance": distance,
         "speed": speed,
-        "travel_time": travel_time,
-        "fuel_capacity": fuel_capacity,
+        "travel_time": travel_time[0],
+        "fuel_capacity": fuel_capacity, 
         "fuel_consumption": fuel_consumption,
-        "fuel_price": fuel_price,
-        "food_checked": food_checked,
-        "toll_checked": toll_checked,
-        "euro_checked": euro_checked,
-        "pound_checked": pound_checked,
-        "total_cost": total_cost,
-        "fuel_consumption_total1": fuel_consumption_total1
+        "total_cost": total_cost,  
     }
-    
     # return the trip data dictionary, trip name, and total fuel consumption as a tuple
     return data, keliones_pavadinimas, fuel_consumption_total1
 
@@ -147,7 +152,7 @@ def calculate_total_cost(distance: float, fuel_consumption: float, fuel_price: f
     total_cost = fuel_cost + food_cost + toll_cost
 
     currency = 'EUR' if euro_checked else 'GBP'
-    return f"Total cost: {total_cost:.2f} {currency}"
+    return total_cost
 
 def fuel_consumption_total(distance: float, fuel_consumption: float) -> str:
     """
@@ -162,9 +167,7 @@ def fuel_consumption_total(distance: float, fuel_consumption: float) -> str:
     """
     fuel_consumption_total = distance * fuel_consumption / 100
 
-    # Use f-strings to format the output string with 2 decimal places for the fuel consumption.
-    return f"Fuel consumption: {fuel_consumption_total:.2f} L"
-
+    return fuel_consumption_total
 
 def calculate_travel_time(distance: float, speed: float) -> str:
     """
@@ -180,9 +183,7 @@ def calculate_travel_time(distance: float, speed: float) -> str:
     time_in_hours = distance / speed
     time_in_minutes = time_in_hours * 60
 
-    # Use f-strings to format the output string with 2 decimal places for the minutes.
-    return f"{time_in_hours:.2f} val. ({time_in_minutes:.2f} - minučių')"
-
+    return time_in_hours, time_in_minutes
 
 def save_data(keliones_pavadinimas, data):
     with open("code_data.json", "r") as f:
@@ -202,27 +203,6 @@ def load_data(filename):
     else:
         return data
 
-# def CustomMeter():
-#     # layout the form
-#     layout = [[sg.Text('A custom progress meter')],
-#               [sg.ProgressBar(5000, orientation='h',
-#                               size=(20, 20), key='progress')],
-#               [sg.Cancel()]]
-
-#     # create the form`
-#     window = sg.Window('Custom Progress Meter', layout)
-#     progress_bar = window['progress']
-#     # loop that would normally do something useful
-#     for i in range(50):
-#         # check to see if the cancel button was clicked and exit loop if clicked
-#         event, values = window.read(timeout=0, timeout_key='timeout')
-#         if event == 'Išeiti' or event == None:
-#             break
-#         # update bar with loop value +1 so that bar eventually reaches the maximum
-#         progress_bar.update_bar(i+1)
-#     # done with loop... need to destroy the window as it's still open
-#     window.CloseNonBlocking()
-
 def sudek_el_lst():
     file_data = load_data(filename)
     for name, dict in file_data.items():
@@ -241,4 +221,26 @@ def update_table(keliones_pavadinimas, data):
     for value in lst:
         if value in old_values:
             lst.remove(value)
+    return lst
+
+def all_trips():
+    file_data = load_data(filename)
+    total_expenses = 0
+    total_gas = 0
+    total_time = 0
+    for dict in file_data.values():
+        total_expenses += dict['total_cost']
+        total_gas += fuel_consumption_total(dict['distance'], dict['fuel_consumption'])
+        total_time += calculate_travel_time(dict['distance'], dict['speed'])[0]          
+    sg.Popup(f"Visos islaidos: {total_expenses:.2f},\n Visas laikas: {total_time:.2f},\n Kuro sanaudos: {total_gas:.2f},\n")
+
+def remove_data(index):
+    file_data = load_data(filename)
+    for count, key in enumerate(file_data.keys()):
+        if count == index:
+            file_data.pop(key)
+            lst.pop(index)
+            break
+    with open(filename, 'w') as f:
+        json.dump(file_data, f, indent=2)
     return lst
