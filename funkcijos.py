@@ -8,7 +8,6 @@ icon = b'iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAFZklEQVR4nO3TWWxUVRwG8O/
 
 lst = []
 
-
 table = sg.Table(
     values= lst,
     headings=['Keliones pavadinimas', "distance", "speed", "travel time", "fuel capacity", "fuel_comsumption", "total cost"], 
@@ -20,8 +19,6 @@ table = sg.Table(
     enable_events=True,
     expand_x=True,
     expand_y=True)
-
-
 
 def calculate_trip_info(values):
     keliones_pavadinimas = values['-NAME-'] + str(siandien)
@@ -38,7 +35,7 @@ def calculate_trip_info(values):
     total_cost = calculate_total_cost(distance, fuel_consumption, fuel_price, food_checked, toll_checked, euro_checked, pound_checked)
     fuel_consumption_total1 = fuel_consumption_total(distance, fuel_consumption)
     
-    all_trip_data = {keliones_pavadinimas, distance, speed, travel_time, fuel_capacity, fuel_consumption, fuel_price, food_checked, toll_checked, euro_checked, pound_checked, total_cost, fuel_consumption_total1}
+    #all_trip_data = {keliones_pavadinimas, distance, speed, travel_time, fuel_capacity, fuel_consumption, fuel_price, food_checked, toll_checked, euro_checked, pound_checked, total_cost, fuel_consumption_total1}
     data = {
         "distance": distance,
         "speed": speed,
