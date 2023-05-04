@@ -1,22 +1,18 @@
 {
-  "12342023-05-04 09:20:36.999141": {
-    "12342023-05-04 09:20:36.999141": {
-      "distance": 2134.0,
-      "speed": 1234.0,
-      "travel time": "Travel time: 1.73 hours or 103.76 minutes",
-      "fuel capacity": "324",
-      "fuel_comsumption": 1342.0,
-      "total cost": "Total cost: 3837529.52 EUR"
-    }
+  "kelione104-05-2023": {
+    "distance": 1212.0,
+    "speed": 1212.0,
+    "travel time": "Travel time: 1.00 hours or 60.00 minutes",
+    "fuel capacity": "1212",
+    "fuel_comsumption": 1212.0,
+    "total cost": "Total cost: 17803616.28 EUR"
   },
-  "32023-05-04 09:51:55.812376": {
-    "32023-05-04 09:51:55.812376": {
-      "distance": 123.0,
-      "speed": 21.0,
-      "travel time": "Travel time: 5.86 hours or 351.43 minutes",
-      "fuel capacity": "23",
-      "fuel_comsumption": 23.0,
-      "total cost": "Total cost: 6040.77 EUR"
-    }
+  "kelione204-05-2023": {
+    "distance": 13.0,
+    "speed": 13.0,
+    "travel time": "Travel time: 1.00 hours or 60.00 minutes",
+    "fuel capacity": "13",
+    "fuel_comsumption": 13.0,
+    "total cost": "Total cost: 36.97 EUR"
   }
 }
