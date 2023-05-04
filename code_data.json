@@ -1,1 +1,16 @@
-{}
+{
+  "1004-05-2023": {
+    "distance": 10.0,
+    "speed": 10.0,
+    "travel_time": "1.00 val. (60.00 - minu\u010di\u0173')",
+    "fuel_capacity": 10,
+    "fuel_consumption": 10.0,
+    "fuel_price": 10.0,
+    "food_checked": false,
+    "toll_checked": false,
+    "euro_checked": true,
+    "pound_checked": false,
+    "total_cost": "Total cost: 10.00 EUR",
+    "fuel_consumption_total1": "Fuel consumption: 1.00 L"
+  }
+}
