@@ -2,6 +2,7 @@ import PySimpleGUI as sg
 import json
 import os
 from funkcijos import *
+from funkcijos import calculate_trip_info
 
 
 lst = ['elementas']
@@ -44,19 +45,8 @@ while True:
         
     elif event == 'Skaičiuoti':
         try:
-            keliones_pavadinimas = values['-NAME-'] + str(siandien)
-            distance = float(values['-DISTANCE-'])
-            speed = float(values['-SPEED-'])
-            travel_time = calculate_travel_time(distance, speed)
-            fuel_capacity = values['-FUEL_CAPACITY-']
-            fuel_consumption = float(values['-FUEL_CONSUMPTION-'])
-            fuel_price = float(values['-FUEL_PRICE-'])
-            food_checked = values['-FOOD_CHECK-']
-            toll_checked = values['-TOLL_CHECK-']
-            euro_checked = values['-EURO_RADIO-']
-            pound_checked = values['-POUND_RADIO-']
-            total_cost = calculate_total_cost(distance, fuel_consumption, fuel_price, food_checked, toll_checked, euro_checked, pound_checked)
-            fuel_consumption_total1 = fuel_consumption_total(distance, fuel_consumption)
+             trip_info = calculate_trip_info(values)
+             keliones_pavadinimas, distance, speed, travel_time, fuel_capacity, fuel_consumption, fuel_price, food_checked, toll_checked, euro_checked, pound_checked, total_cost, fuel_consumption_total1 = trip_info
         except Exception as e:
             sg.Popup('Something went wrong', e)
             continue
