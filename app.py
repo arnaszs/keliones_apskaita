@@ -3,8 +3,8 @@ import json
 import os
 from funkcijos import *
 
-filename = 'code_data.json'
 
+lst = ['elementas']
 # Layout
 layout = [
     [sg.Text('Keliones pavadinimas: ', background_color="Dark Cyan"), sg.Input(key='-NAME-', size=20)], 
@@ -16,19 +16,25 @@ layout = [
     [sg.Checkbox('Maistas', key='-FOOD_CHECK-', background_color="Dark Cyan")],
     [sg.Checkbox('Kelių mokestis', key='-TOLL_CHECK-', background_color="Dark Cyan")],
     [sg.Text('Valiutos tipas: ', background_color="Dark Cyan"), sg.Radio('Eurai', 'RADIO1', key='-EURO_RADIO-', default=True, background_color="Dark Cyan"), sg.Radio('Svarai', 'RADIO1', key='-POUND_RADIO-', background_color="Dark Cyan")],
-    [sg.Button('Skaičiuoti', button_color=('white', 'springgreen4'), use_ttk_buttons=True, focus=True), sg.Button('Išvalyti', use_ttk_buttons=True, focus=True), sg.Button('Rodyti ataskaitą', use_ttk_buttons=True, focus=True), sg.Button('Išeiti', button_color=('white', 'firebrick3'), use_ttk_buttons=True, focus=True)]]
+    [sg.Button('Skaičiuoti', button_color=('white', 'springgreen4'), use_ttk_buttons=True, focus=True), sg.Button('Išvalyti', use_ttk_buttons=True, focus=True), sg.Button('Rodyti ataskaitą', use_ttk_buttons=True, focus=True), sg.Button('Išeiti', button_color=('white', 'firebrick3'), use_ttk_buttons=True, focus=True)]
+    ]
+
 
 
 # Create the window
 window = sg.Window('Kelionės kalkuliatorius', layout, 
                  size=(640, 480),
-                 element_padding=None, margins=(None, None), button_color=None, font='Italic 12 bold',
+                margins=(None, None), button_color=None, font='Italic 12 bold',
                  background_color='Dark Cyan', 
                  icon=icon,
                  alpha_channel=0.97, use_default_focus=True, grab_anywhere=True, resizable=True,
                  element_justification='left', 
                  titlebar_font='Italic 12 bold', titlebar_icon=icon)
+
+window_table = sg.Window('1')
+
 CustomMeter()
+
 # Event loop
 while True:
     event, values = window.read()
@@ -57,32 +63,23 @@ while True:
             sg.Popup(f"{total_cost}, {travel_time}, {fuel_consumption_total1}, kuro bako talpa: {fuel_capacity}")
         
         data = {
-        keliones_pavadinimas: {
-        "distance": distance,
-        "speed": speed,
-        "travel time": travel_time ,
-        "fuel capacity": fuel_capacity, 
-        "fuel_comsumption": fuel_consumption,
-        "total cost": total_cost,
-    },
-}
-
-        with open("code_data.json", "r") as f:
-            loader = json.load(f)
-            with open('code_data.json', 'w') as f:
-                loader[keliones_pavadinimas] = data
-                json.dump(loader, f, indent=2)
-
+            keliones_pavadinimas: {
+                "distance": distance,
+                "speed": speed,
+                "travel time": travel_time ,
+                "fuel capacity": fuel_capacity, 
+                "fuel_comsumption": fuel_consumption,
+                "total cost": total_cost,
+            },
+        }
+        save_data(keliones_pavadinimas, data)
+            
     elif event == 'Rodyti ataskaitą':
-        try:
-            with open('code_data.json', 'r+', encoding='utf-8') as data:
-                data = json.load(data)
-        except json.decoder.JSONDecodeError as e:
-            print(f'Error reading {filename}: {e}')
-            data = {"nepaėja"}
-        else:
-            sg.Popup(f"{data}")
-            data = data
+        data = load_data(filename)
+        sg.Popup(f"{data}")
+        for name in data.keys():
+            print(name)
+                
 
     elif event == 'Išvalyti':
         window['-NAME-'].update('')
