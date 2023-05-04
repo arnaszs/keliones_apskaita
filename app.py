@@ -1,7 +1,6 @@
 import PySimpleGUI as sg
 from funkcijos import *
 from funkcijos import calculate_trip_info
-from intro_gif import gif
 from PIL import Image, ImageTk, ImageSequence
 
 gif_filename = r'img/spinning-awesome.gif'
@@ -53,9 +52,6 @@ while True:
             window2.close()
             break
             
-
-
-
         window2['-IMAGE-'].update(data=ImageTk.PhotoImage(frame) )
 
     # Event loop
@@ -101,8 +97,5 @@ while True:
             window['-FOOD_CHECK-'].update(False)
             window['-TOLL_CHECK-'].update(False)
 
-
     # Close the window
     window.close()
-
-    #versija 2 
