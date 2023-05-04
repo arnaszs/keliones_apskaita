@@ -1,5 +1,7 @@
 import json
 import datetime as dt
+import PySimpleGUI as sg
+
 
 
 filename = 'code_data.json'
@@ -32,7 +34,6 @@ def calculate_travel_time(distance, speed):
     time_in_minutes = time_in_hours * 60
     return f"Travel time: {time_in_hours:.2f} hours or {time_in_minutes:.2f} minutes"
 
-
 def save_data(keliones_pavadinimas, data):
     with open("code_data.json", "r") as f:
         loader = json.load(f)
@@ -49,3 +50,25 @@ def load_data(filename):
         data = {"nepaėja"}
     else:
         return data
+
+def CustomMeter():
+    # layout the form
+    layout = [[sg.Text('A custom progress meter')],
+              [sg.ProgressBar(5000, orientation='h',
+                              size=(20, 20), key='progress')],
+              [sg.Cancel()]]
+
+    # create the form`
+    window = sg.Window('Custom Progress Meter', layout)
+    progress_bar = window['progress']
+    # loop that would normally do something useful
+    for i in range(5000):
+        # check to see if the cancel button was clicked and exit loop if clicked
+        event, values = window.read(timeout=0, timeout_key='timeout')
+        if event == 'Išeiti' or event == None:
+            break
+        # update bar with loop value +1 so that bar eventually reaches the maximum
+        progress_bar.update_bar(i+1)
+    # done with loop... need to destroy the window as it's still open
+    window.CloseNonBlocking()
+

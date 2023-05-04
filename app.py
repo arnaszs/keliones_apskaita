@@ -20,6 +20,7 @@ layout = [
     ]
 
 
+
 # Create the window
 window = sg.Window('Kelionės kalkuliatorius', layout, 
                  size=(640, 480),
@@ -29,7 +30,11 @@ window = sg.Window('Kelionės kalkuliatorius', layout,
                  alpha_channel=0.97, use_default_focus=True, grab_anywhere=True, resizable=True,
                  element_justification='left', 
                  titlebar_font='Italic 12 bold', titlebar_icon=icon)
+
 window_table = sg.Window('1')
+
+CustomMeter()
+
 # Event loop
 while True:
     event, values = window.read()
