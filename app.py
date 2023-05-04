@@ -98,9 +98,9 @@ while True:
         elif event == 'Išvalyti':
             for key in ['-NAME-', '-DISTANCE-', '-SPEED-', '-FUEL_CAPACITY-', '-FUEL_PRICE-', '-FUEL_CONSUMPTION-']:
                 window[key].update('')
-            for key in ['-FOOD_CHECK-', '-TOLL_CHECK-', '-EURO_RADIO-']:
-                window[key].update(False)
-            window['-EURO_RADIO-'].update(True)
+            window['-FOOD_CHECK-'].update(False)
+            window['-TOLL_CHECK-'].update(False)
+
 
     # Close the window
     window.close()
