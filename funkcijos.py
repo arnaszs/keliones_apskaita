@@ -22,6 +22,18 @@ def calculate_trip_info(values):
     fuel_consumption_total1 = fuel_consumption_total(distance, fuel_consumption)
     return keliones_pavadinimas, distance, speed, travel_time, fuel_capacity, fuel_consumption, fuel_price, food_checked, toll_checked, euro_checked, pound_checked, total_cost, fuel_consumption_total1
 
+lst = []
+
+table = sg.Table(
+    values= lst,
+    headings=['Keliones pavadinimas', "distance", "speed", "travel time", "fuel capacity", "fuel_comsumption", "total cost"], 
+    auto_size_columns=True,
+    display_row_numbers=False,
+    justification='center', key='-TABLE-',
+    selected_row_colors='red on yellow',
+    enable_events=True,
+    expand_x=True,
+    expand_y=True)
 
 def calculate_total_cost(distance, fuel_consumption, fuel_price, food_checked, toll_checked, euro_checked, pound_checked):
     fuel_cost = distance * fuel_consumption * fuel_price / 100
@@ -69,7 +81,7 @@ def load_data(filename):
 def CustomMeter():
     # layout the form
     layout = [[sg.Text('A custom progress meter')],
-              [sg.ProgressBar(1000, orientation='h',
+              [sg.ProgressBar(5000, orientation='h',
                               size=(20, 20), key='progress')],
               [sg.Cancel()]]
 
@@ -77,7 +89,7 @@ def CustomMeter():
     window = sg.Window('Custom Progress Meter', layout)
     progress_bar = window['progress']
     # loop that would normally do something useful
-    for i in range(1000):
+    for i in range(50):
         # check to see if the cancel button was clicked and exit loop if clicked
         event, values = window.read(timeout=0, timeout_key='timeout')
         if event == 'Išeiti' or event == None:
@@ -87,3 +99,12 @@ def CustomMeter():
     # done with loop... need to destroy the window as it's still open
     window.CloseNonBlocking()
 
+def sudek_el_lst():
+    data = load_data(filename)
+    for name, dict in data.items():
+        row = []
+        row.append(name)
+        for val in dict.values():
+            row.append(val)
+        lst.append(row)
+          
