@@ -38,11 +38,12 @@ CustomMeter()
 # Event loop
 while True:
     event, values = window.read()
+    
     if event in (sg.WINDOW_CLOSED, 'Išeiti'):
         break
+        
     elif event == 'Skaičiuoti':
         try:
-        # Do the calculations here
             keliones_pavadinimas = values['-NAME-'] + str(siandien)
             distance = float(values['-DISTANCE-'])
             speed = float(values['-SPEED-'])
@@ -66,7 +67,7 @@ while True:
             keliones_pavadinimas: {
                 "distance": distance,
                 "speed": speed,
-                "travel time": travel_time ,
+                "travel time": travel_time,
                 "fuel capacity": fuel_capacity, 
                 "fuel_comsumption": fuel_consumption,
                 "total cost": total_cost,
@@ -80,16 +81,11 @@ while True:
         for name in data.keys():
             print(name)
                 
-
     elif event == 'Išvalyti':
-        window['-NAME-'].update('')
-        window['-DISTANCE-'].update('')
-        window['-FUEL_CONSUMPTION-'].update('')
-        window['-FUEL_CAPACITY-'].update('')
-        window['-SPEED-'].update('')
-        window['-FUEL_PRICE-'].update('')
-        window['-FOOD_CHECK-'].update(False)
-        window['-TOLL_CHECK-'].update(False)
+        for key in ['-NAME-', '-DISTANCE-', '-SPEED-', '-FUEL_CAPACITY-', '-FUEL_PRICE-', '-FUEL_CONSUMPTION-']:
+            window[key].update('')
+        for key in ['-FOOD_CHECK-', '-TOLL_CHECK-', '-EURO_RADIO-']:
+            window[key].update(False)
         window['-EURO_RADIO-'].update(True)
 
 # Close the window
