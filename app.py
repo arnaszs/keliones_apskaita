@@ -1,19 +1,8 @@
 import PySimpleGUI as sg
 from funkcijos import *
-from PIL import Image, ImageTk, ImageSequence
 
 sudek_el_lst()
-for count in range(100):
-    for count, frame in enumerate(ImageSequence.Iterator(Image.open(gif_filename))):
-        event, values = window2.read(timeout=interframe_duration)     
-        if event == sg.WIN_CLOSED:
-            exit(0)
-        elif event == 'Išeiti' or event == None:
-            exit(0)
-        window2['-IMAGE-'].update(data=ImageTk.PhotoImage(frame))
-        window2['progress'].update_bar(count +1)
-    window2.close()
-    break
+gifas()
 
 while True:
     event, values = window.read()
