@@ -25,23 +25,23 @@ table = sg.Table(
 
 # Layout
 layout = [
-    [sg.Text('Keliones pavadinimas: ', background_color="Dark Cyan"), 
+    [sg.Text('Keliones pavadinimas: \t', background_color="#656b7e", font=("Candara Regular", 11)), 
      sg.Input(key='-NAME-')], 
-    [sg.Text('Kelionės atstumas (km): ', background_color="Dark Cyan"), 
-     sg.Input(key='-DISTANCE-', size=20)],
-    [sg.Text('Greitis: ', background_color="Dark Cyan"), 
+    [sg.Text('Kelionės atstumas (km):\t', background_color="#656b7e", font=("Candara Regular", 11)), 
+     sg.Input(key='-DISTANCE-')],
+    [sg.Text('Greitis: \t\t\t', background_color="#656b7e", font=("Candara Regular", 11)), 
      sg.Input(key='-SPEED-')],
-    [sg.Text('Kuro bako talpa (l): ', background_color="Dark Cyan"), 
+    [sg.Text('Kuro bako talpa (l): \t\t', background_color="#656b7e", font=("Candara Regular", 11)), 
      sg.Input(key='-FUEL_CAPACITY-')],
-    [sg.Text('Kuro kaina (eur/l): ', background_color="Dark Cyan"), 
+    [sg.Text('Kuro kaina (eur/l): \t\t', background_color="#656b7e", font=("Candara Regular", 11)), 
      sg.Input(key='-FUEL_PRICE-')],
-    [sg.Text('Kuro sanaudos (l/100km): ', background_color="Dark Cyan"), 
+    [sg.Text('Kuro sanaudos (l/100km): \t', background_color="#656b7e", font=("Candara Regular", 11)), 
      sg.Input(key='-FUEL_CONSUMPTION-')],
-    [sg.Checkbox('Maistas', key='-FOOD_CHECK-', background_color="Dark Cyan")],
-    [sg.Checkbox('Kelių mokestis', key='-TOLL_CHECK-', background_color="Dark Cyan")],
-    [sg.Text('Valiutos tipas: ', background_color="Dark Cyan"), 
-     sg.Radio('Eurai', 'RADIO1', key='-EURO_RADIO-', default=True, background_color="Dark Cyan"), 
-     sg.Radio('Svarai', 'RADIO1', key='-POUND_RADIO-', background_color="Dark Cyan")],
+    [sg.Checkbox('Maistas', key='-FOOD_CHECK-', background_color="#656b7e", font=("Candara Regular", 11))],
+    [sg.Checkbox('Kelių mokestis', key='-TOLL_CHECK-', background_color="#656b7e", font=("Candara Regular", 11))],
+    [sg.Text('Valiutos tipas: ', background_color="#656b7e", font=("Candara Regular", 11)), 
+     sg.Radio('Eurai', 'RADIO1', key='-EURO_RADIO-', default=True, background_color="#656b7e", font=("Candara Regular", 11)), 
+     sg.Radio('Svarai', 'RADIO1', key='-POUND_RADIO-', background_color="#656b7e", font=("Candara Regular", 11))],
     [sg.Button('Skaičiuoti', button_color=('white', 'springgreen4'), use_ttk_buttons=True, focus=True), 
      sg.Button('Išvalyti', use_ttk_buttons=True, focus=True), 
      sg.Button('Rodyti ataskaitą', use_ttk_buttons=True, focus=True), 
@@ -50,24 +50,27 @@ layout = [
     [table]
     ]
 
-layout2 = [[sg.Text('Andriaus kelionės!', background_color='#A37A3B', text_color='#FFF000',  justification='c', key='-T-', font=("Bodoni MT", 40))],
+layout2 = [[sg.Text('Andriaus kelionės!', background_color='#A37A3B', text_color='#FFF000',  justification='c', key='-T-', font=("Candara Regular", 40))],
         [sg.Image(key='-IMAGE-')],
         [sg.ProgressBar(interframe_duration, orientation='h', size=(58, 30), key='progress')],
         [sg.Button(button_color=('white', 'firebrick3'), button_text=('Atšaukti'), size=(20, 1), focus=True, key='Išeiti')]]   
 
 # Create the window
 window = sg.Window('Kelionės kalkuliatorius', 
-                layout, 
-                size=(1280, 480),
-                margins=(None, None), button_color=None, font='Italic 12 bold',
-                background_color='Dark Cyan', 
+                layout = layout, 
+                size=(1100, 540),
+                margins=(20, 20),
+                button_color=None,
+
+                background_color='#656b7e', 
                 icon=icon,
                 alpha_channel=0.97, 
                 use_default_focus=True, 
                 grab_anywhere=True, 
                 resizable=True,
                 element_justification='left', 
-                titlebar_font='Italic 12 bold', titlebar_icon=icon)
+                titlebar_font='Italic 11',
+                titlebar_icon=icon)
 
 window2 = sg.Window('Kelionės apskaita', 
                     layout2, 
@@ -169,7 +172,7 @@ def fuel_consumption_total(distance: float, fuel_consumption: float) -> str:
 
     return fuel_consumption_total
 
-def calculate_travel_time(distance: float, speed: float) -> str:
+def calculate_travel_time(distance: float, speed: float) -> Tuple[float, float]:
     """
     Calculates the travel time given a distance and speed.
 
@@ -178,12 +181,13 @@ def calculate_travel_time(distance: float, speed: float) -> str:
         speed: A float indicating the speed of travel.
 
     Returns:
-        A formatted string indicating the travel time in hours and minutes.
+        A tuple of two floats indicating the travel time in hours and minutes.
     """
     time_in_hours = distance / speed
     time_in_minutes = time_in_hours * 60
 
     return time_in_hours, time_in_minutes
+
 
 def save_data(keliones_pavadinimas, data):
     with open("code_data.json", "r") as f:

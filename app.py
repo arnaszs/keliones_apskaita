@@ -28,7 +28,7 @@ while True:
             sg.Popup('Something went wrong', e)
             continue
         else:
-            sg.Popup(f"Visos islaidos: {data['total_cost']:.2f}, \nVisas laikas: valandomis {calculate_travel_time(data['distance'], data['speed'])[0]:.2f}, minutemis {calculate_travel_time(data['distance'], data['speed'])[1]:.2f} \nKuro sanaudos: {fuel_consumption_total1:.2f},\nkuro bako talpa: {data['fuel_capacity']}")
+            sg.Popup(f"Išlaidos: {data['total_cost']:.2f}, \nLaikas: valandomis {calculate_travel_time(data['distance'], data['speed'])[0]:.2f}, minutemis {calculate_travel_time(data['distance'], data['speed'])[1]:.2f} \nKuro sanaudos: {fuel_consumption_total1:.2f},\nkuro bako talpa: {data['fuel_capacity']}")
       
     elif event == 'Rodyti ataskaitą':
         all_trips()
