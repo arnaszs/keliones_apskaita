@@ -1,9 +1,19 @@
 import PySimpleGUI as sg
 from funkcijos import *
+import pygame
+
+# initialize pygame mixer
+pygame.mixer.init()
+
+# load the sound file
+sound = pygame.mixer.Sound('img/morons.MP3')
 
 sudek_el_lst()
 gifas()
 
+
+# play the sound file
+sound.play()
 while True:
     event, values = window.read()
     if event in (sg.WINDOW_CLOSED, 'Išeiti'):
@@ -33,6 +43,10 @@ while True:
         for key in ['-FOOD_CHECK-', '-TOLL_CHECK-', '-EURO_RADIO-']:
             window[key].update(False)
         window['-EURO_RADIO-'].update(True)
+
+
+# stop the sound when the program exits
+sound.stop()
 
 # Close the window
 window.close()
