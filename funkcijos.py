@@ -1,8 +1,9 @@
 import json
 from datetime import date
 import PySimpleGUI as sg
-from PIL import Image
+from PIL import Image, ImageTk, ImageSequence
 
+#global variables
 siandien = date.today().strftime("%d-%m-%Y")
 filename = "code_data.json"
 icon = b'iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAFZklEQVR4nO3TWWxUVRwG8O/uc2fuLHfaKVO6sJRpS9kKCaCCpfKgDSYgEhAe5IFggEBCxKAPJmhifFDiEhMxmAiGKE0KYtkiLpVVC1ikmEKhWKaddtrZp7PfO3fuPT6ZGFMYEHzjez7n/8v3zznA4zxkurq6uLa2NqbYOfpRwz3e2MrBUKjyf4WPXiHT9nUSDwD0EMJvPtBdZhikRWKECcXuUg8CEUKoQ4dAr1lD6XsGiez9dWij79bNpYGRQFJN6rPURLB0xiTW/uRc8aWtm7a232sW+yDwmYEBYd3aKcrO44qn/aNf2hP+voZE2ItEMAJGV8ExLGJSFUIjqYnFZj3Qqt/ZdqTkuc0dTT3nez7PJvQGomlIBOPIp8MwOECnbdBZe2L58qaTxWbdd+Ol6z+rcNU3HxRFqSmvqpjvimCoK4asJCMGAoMRoGo88pSUnTpvaeKRwEveOs1Wy+59DjPVpIe6MTLqRerCEbzIOkBbZ6IDTuS1JAxKRcjvFbZs3y4Um3lfqz7zdrOuZ0ePnv5iGw5+shlnvvkAt/N5vMvkICl9eAIJOCQ7CnoODqfMrlj1Cv9IGgPgqhgy+zotYUF1IyizBSboGE5H4OEkaLoGJ0sjKdpBURTNWMxFf0tR+PUDt596df/ge4oqLG6c1Qw6mUTs0jHIsg01mgICDXYtAX4si4RjBnjRQu6nyT3h9suJuhOXA8f7e286x66cRq1FgdlIob5ERlkmBcFUBo/ZjE5UYYhQoEgBPG8CJwhF8bvCbRdHpwz5BltrZcUp1MgY7HViphBBlMrjiuFEuTgZDsrAgGBBi5HGMakOejYPo6BBfJjGF08dWtDbNzaX0kZRUdeCaj0OcWwAE/NxZLgJqOYUiDSFQC6BOxqPWfQIKiQ3AnYbcrncf4cjkaAjm9FgM7Pw9Q8gMHQDfyh+iI5yeKwaJqgZmDgBQ9IkDCpWeKwWKKwJajZDcwxT9LeMC7cFiXR231cb9Du/g+VYgJhhnToPhG/E9OwohPBVXFSACCVAEjX0spW4UcjBEDTIui3w/Lwp/i1vfvqsPxqpX7R91/43plOpfxvjPvvXdn+/MDR89aKvPwC3W0BlzVxkwsNIKRyun/0O3ddPweysgXtKHWrqaxEZiUJNByCXuCBI5SOBaObl7FDnzplV81vslrJrllmNe8Nq2jJ8Z/jmb+27Tty18fR5jbWVk2V4akMQeAZ1DbPR8ZMXP5/8EVDCaFqxAdcu/IAJNjPWLm9GnzeIwxf8CHIiBN46seCiOkrKajEjEsa1vnNzjArsEfkqRPvPh9ft2NvQ+uGmyLgwC2ZSy7L54HQABChoBO2tZ0HnvJDdpWheuRFBby/cLieqnDyycWD9CwvhqvYgHo1CVTVAEOA7cgxGRsBYyIesqqBcLjgHrhxzAxgf7jj8rUii5eCgwCSaEAoE0XP5FLRcCC67DTPKCRwOG7xDOjq7Y/D7o7h06RwEQQBL5cCyNMwWE4yICloug0mSEYmnUDm5Fn9e7aLuuuquC50h/x0NqWQKgACKqAgH0wZN03Q44Ec66EM8Fk7HYvTw11+2mlLxCKcaToHQdGn1VAk8xUBJ5pHOjMHK0Ih6Y/D130Kp82mSzWaN8UwAQF3dTmv9zMVLRNHaT1ECYVmpw+Va0lg5ccEGm10m8xc9Q0rLyt9fvbqB3717t8XpnGYTgBqapmIACMMwgwJvIqIokbLKaaTEPUkRzWZS4WmMW63Wkru+6r/jcDiWZDKJZQBp1TR0A4As23ckk+lKm832cTwe9/3zvCRJq1RVncPzOGwy2ZYBhljIF3iaxXmG4epy6ZQ/o2ht9zIf53EeOn8BWy1K8ndljBwAAAAASUVORK5CYII='
@@ -58,10 +59,9 @@ layout2 = [[sg.Text('Andriaus kelionės!', background_color='#A37A3B', text_colo
 # Create the window
 window = sg.Window('Kelionės kalkuliatorius', 
                 layout = layout, 
-                size=(1100, 540),
+                size=(1400, 540),
                 margins=(20, 20),
                 button_color=None,
-
                 background_color='#656b7e', 
                 icon=icon,
                 alpha_channel=0.97, 
@@ -77,17 +77,12 @@ window2 = sg.Window('Kelionės apskaita',
                     element_justification='c', 
                     margins=(0,0), 
                     element_padding=(0,0), 
-                    finalize=True)
+                    finalize=True,
+                    location= (400, 10))
 
 window2['-T-'].expand(True, True, True)  # Make the Text element expand to take up all available space
 
-from typing import Dict, Tuple
-
-# define the types of the input and output data for the function
-ValuesDict = Dict[str, str]
-TripData = Dict[str, float]
-
-def calculate_trip_info(values: ValuesDict) -> Tuple[TripData, str, float]:
+def calculate_trip_info(values):
     # extract values from the input dictionary and convert them to appropriate data types
     keliones_pavadinimas = values['-NAME-'] + str(siandien)  # siandien variable is not defined
     distance = float(values['-DISTANCE-'])
@@ -172,7 +167,7 @@ def fuel_consumption_total(distance: float, fuel_consumption: float) -> str:
 
     return fuel_consumption_total
 
-def calculate_travel_time(distance: float, speed: float) -> Tuple[float, float]:
+def calculate_travel_time(distance: float, speed: float):
     """
     Calculates the travel time given a distance and speed.
 
@@ -190,6 +185,9 @@ def calculate_travel_time(distance: float, speed: float) -> Tuple[float, float]:
 
 
 def save_data(keliones_pavadinimas, data):
+    """
+    issaugo keliones duomenis i faila, keliones pavadinimas(key): data(value)
+    """
     with open("code_data.json", "r") as f:
         loader = json.load(f)
         with open('code_data.json', 'w') as f:
@@ -198,6 +196,12 @@ def save_data(keliones_pavadinimas, data):
     return data
 
 def load_data(filename):
+    """
+    uzkrauna viska kas yra faile, "code_data.json"
+    atiduoda data
+
+    return data
+    """
     try:
         with open(filename, 'r+', encoding='utf-8') as data:
             data = json.load(data)
@@ -208,6 +212,10 @@ def load_data(filename):
         return data
 
 def sudek_el_lst():
+    """
+    sudek_elementus_i_lista()
+    is failo "code_data.json" esancius elementus sudeda i lst(lista)
+    """
     file_data = load_data(filename)
     for name, dict in file_data.items():
         row = []
@@ -217,6 +225,17 @@ def sudek_el_lst():
         lst.append(row)
 
 def update_table(keliones_pavadinimas, data):
+    """
+    Lenteles(table) funkcija, prideti eilute(row) i lenteles 
+    funkcija priima keliones_pavadinima ir tos keliones duomenis(data), 
+    pirmiausia funkcija iraso i faila nauja kelione(save_data),
+    tada funkcija iteruoja per lst(list), sudeda elementus i nauja list'a old_values,
+    tada suveikia funkcija sudek_el_lst(), kuri is faile esancius elementus sudeda i lst(list)
+    tada dar karta iteruoja per lst(lista), ir jeigu elementas yra old_values(liste), is lst ismeta elementa,
+    atiduoda lst su vienu nauju elementu.
+
+    return lst
+    """
     save_data(keliones_pavadinimas, data)
     old_values = []
     for value in lst:
@@ -228,6 +247,12 @@ def update_table(keliones_pavadinimas, data):
     return lst
 
 def all_trips():
+    """
+    funkcija iteruoja per visus value elementus esancius "code_data.json" faile ir sumuoja, kad gauti Visas_islaidas, Visas_kuras,
+    Visas_laikas, is visu kelioniu(value elementu)
+    pastebejimas:
+    kadangi faile nera saugojami reikalingi duomenys, apskaiciuoti Visas_kuras, Visas_laikas turime patys
+    """
     file_data = load_data(filename)
     total_expenses = 0
     total_gas = 0
@@ -236,9 +261,14 @@ def all_trips():
         total_expenses += dict['total_cost']
         total_gas += fuel_consumption_total(dict['distance'], dict['fuel_consumption'])
         total_time += calculate_travel_time(dict['distance'], dict['speed'])[0]          
-    sg.Popup(f"Visos islaidos: {total_expenses:.2f},\n Visas laikas: {total_time:.2f},\n Kuro sanaudos: {total_gas:.2f},\n")
+    sg.Popup(f"Visos islaidos: {total_expenses:.2f},\n Visas laikas: {total_time:.2f},\n Kuro sanaudos: {total_gas:.2f}\n")
 
 def remove_data(index):
+    """
+    Lenteles(table) funkcija, naikinti eilute(row) is lenteles 
+    funkcija priima indexa, kuri elementa trinti, ir istrina to indexo elementa "code_data.json"(dict) ir lst(list) 
+    duomenu strukturose
+    """
     file_data = load_data(filename)
     for count, key in enumerate(file_data.keys()):
         if count == index:
@@ -248,3 +278,17 @@ def remove_data(index):
     with open(filename, 'w') as f:
         json.dump(file_data, f, indent=2)
     return lst
+
+def gifas():
+    """
+    Gifo paleidimo funkcija
+    """
+    for count, frame in enumerate(ImageSequence.Iterator(Image.open(gif_filename))):
+        event, values = window2.read(timeout=interframe_duration)     
+        if event == sg.WIN_CLOSED:
+            exit(0)
+        elif event == 'Išeiti' or event == None:
+            exit(0)
+        window2['-IMAGE-'].update(data=ImageTk.PhotoImage(frame))
+        window2['progress'].update_bar(count +1)
+    window2.close()
