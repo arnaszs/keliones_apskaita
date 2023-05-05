@@ -1,18 +1,1 @@
-{
-  "reisas05-05-2023": {
-    "distance": 1200.0,
-    "speed": 80.0,
-    "travel_time": 15.0,
-    "fuel_capacity": 1250,
-    "fuel_consumption": 27.0,
-    "total_cost": 501.0
-  },
-  "reisas 205-05-2023": {
-    "distance": 154.0,
-    "speed": 110.0,
-    "travel_time": 1.4,
-    "fuel_capacity": 65,
-    "fuel_consumption": 8.0,
-    "total_cost": 18.48
-  }
-}
+{}

@@ -1,1 +1,0 @@
-{"distance": 100.0, "fuel_price": 1.5, "tank_capacity": 50.0, "fuel_consumption": 5.0, "food_budget": 10.0, "total_cost": 17.5}
